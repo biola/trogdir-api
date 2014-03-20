@@ -13,3 +13,9 @@ group :development, :test do
   gem 'rack-test'
   gem 'rspec'
 end
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'shotgun'
+end
