@@ -3,3 +3,4 @@
 .rspec
 config/mongoid.yml
 pkg/*
+tmp/*
