@@ -13,7 +13,7 @@ module TrogdirAPI
 end
 
 module Trogdir
-  autoload :ResponseHelpers, 'trogdir/helpers/response_helpers.rb'
-  autoload :API, 'trogdir/api'
-  autoload :V1, 'trogdir/versions/v1'
+  autoload :ResponseHelpers, File.expand_path('../trogdir/helpers/response_helpers', __FILE__)
+  autoload :API, File.expand_path('../trogdir/api', __FILE__)
+  autoload :V1, File.expand_path('../trogdir/versions/v1', __FILE__)
 end

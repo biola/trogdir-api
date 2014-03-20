@@ -1,11 +1,11 @@
 module Trogdir
   module V1
-    autoload :API, 'trogdir/versions/v1/api'
-    autoload :PersonEntity, 'trogdir/versions/v1/entities/person'
-    autoload :IDEntity, 'trogdir/versions/v1/entities/id'
-    autoload :EmailEntity, 'trogdir/versions/v1/entities/email'
-    autoload :PhotoEntity, 'trogdir/versions/v1/entities/photo'
-    autoload :PhoneEntity, 'trogdir/versions/v1/entities/phone'
-    autoload :AddressEntity, 'trogdir/versions/v1/entities/address'
+    autoload :API, File.expand_path('../../../trogdir/versions/v1/api', __FILE__)
+    autoload :PersonEntity, File.expand_path('../../../trogdir/versions/v1/entities/person', __FILE__)
+    autoload :IDEntity, File.expand_path('../../../trogdir/versions/v1/entities/id', __FILE__)
+    autoload :EmailEntity, File.expand_path('../../../trogdir/versions/v1/entities/email', __FILE__)
+    autoload :PhotoEntity, File.expand_path('../../../trogdir/versions/v1/entities/photo', __FILE__)
+    autoload :PhoneEntity, File.expand_path('../../../trogdir/versions/v1/entities/phone', __FILE__)
+    autoload :AddressEntity, File.expand_path('../../../trogdir/versions/v1/entities/address', __FILE__)
   end
 end
