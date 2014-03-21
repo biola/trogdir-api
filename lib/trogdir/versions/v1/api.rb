@@ -5,9 +5,10 @@ module Trogdir
 
       format :json
       helpers ResponseHelpers
+      helpers AuthenticationHelpers
 
       rescue_from Mongoid::Errors::DocumentNotFound do |e|
-        Rack::Response.new([e.message], 404)
+        error! "404 Not Found", 404
       end
 
       resource :people do
@@ -17,6 +18,8 @@ module Trogdir
           optional :type, type: Symbol, values: ID::TYPES, default: ID::DEFAULT_TYPE
         end
         get ':id', requirements: {id: /[0-9a-zA-Z\._-]+/} do
+          authenticate!
+
           conditions = {ids: {type: params[:type], identifier: params[:id]}}
 
           present elem_match_or_404(Person, conditions), with: PersonEntity

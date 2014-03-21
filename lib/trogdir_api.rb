@@ -1,5 +1,6 @@
 require 'grape'
 require 'grape-entity'
+require 'api_auth'
 require 'trogdir_models'
 
 module TrogdirAPI
@@ -13,6 +14,7 @@ module TrogdirAPI
 end
 
 module Trogdir
+  autoload :AuthenticationHelpers, File.expand_path('../trogdir/helpers/authentication_helpers', __FILE__)
   autoload :ResponseHelpers, File.expand_path('../trogdir/helpers/response_helpers', __FILE__)
   autoload :API, File.expand_path('../trogdir/api', __FILE__)
   autoload :V1, File.expand_path('../trogdir/versions/v1', __FILE__)

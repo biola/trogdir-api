@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe Trogdir::API do
   include Rack::Test::Methods
-
-  def app
-    Trogdir::API
-  end
+  include HMACHelpers
 
   let(:person) { create :person }
 
@@ -14,33 +11,44 @@ describe Trogdir::API do
     let!(:netid) { create :id, person: person, type: :netid, identifier: 'with.period' }
     let!(:biola_id) { create :id, person: person, type: :biola_id }
 
+    context 'unauthenticated request' do
+      it '401s' do
+        get "/v1/people/#{netid}"
+        expect(last_response.status).to eql 401
+      end
+    end
+
     context 'without a type' do
       it 'finds a person by netid' do
-        get "/v1/people/#{netid}"
-        last_response.status.should eql 200
-        JSON.parse(last_response.body)['last_name'] == person.last_name
+        signed_get "/v1/people/#{netid}" do |response|
+          expect(response.status).to eql 200
+          expect(JSON.parse(response.body)['last_name']).to eql person.last_name
+        end
       end
     end
 
     context 'with a type' do
       it 'finds a person by id type' do
-        get "/v1/people/#{biola_id}", type: :biola_id
-        last_response.status.should eql 200
-        JSON.parse(last_response.body)['_id'] == person.id.to_s
+        signed_get "/v1/people/#{biola_id}", type: 'biola_id' do |response|
+          expect(response.status).to eql 200
+          expect(JSON.parse(response.body)['_id']).to eql person._id.to_s
+        end
       end
     end
 
     context 'with an bogus id' do
       it '404s' do
-        get "/v1/people/#{netid}", type: :biola_id
-        last_response.status.should eql 404
+        signed_get "/v1/people/#{netid}", type: 'biola_id' do |response|
+          expect(response.status).to eql 404
+        end
       end
     end
 
     context 'with an bogus type' do
       it '400s' do
-        get "/v1/people/#{netid}", type: :bogus
-        last_response.status.should eql 400
+        signed_get "/v1/people/#{netid}", type: 'bogus' do |response|
+          expect(response.status).to eql 400
+        end
       end
     end
 
@@ -49,7 +57,7 @@ describe Trogdir::API do
       let!(:photo) { create :photo, person: person }
       let!(:phone) { create :phone, person: person }
       let!(:address) { create :address, person: person }
-      let(:response) { get "/v1/people/#{netid}" }
+      let(:response) { signed_get "/v1/people/#{netid}" }
       subject { JSON.parse(response.body).deep_symbolize_keys }
 
       it 'has expected values' do

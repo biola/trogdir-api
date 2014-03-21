@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'api-auth'
 gem 'grape'
 gem 'grape-entity'
 gem 'trogdir_models'

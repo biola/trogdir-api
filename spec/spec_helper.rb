@@ -17,6 +17,8 @@ TrogdirAPI.initialize!
 TrogdirModels.load_factories
 FactoryGirl.find_definitions
 
+Dir[File.expand_path('../support/*.rb', __FILE__)].each {|f| require f}
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
