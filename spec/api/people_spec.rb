@@ -20,7 +20,7 @@ describe Trogdir::API do
     let(:id) { netid }
     let(:url) { "/v1/people/#{id}" }
 
-    context 'unauthenticated request' do
+    context 'when unauthenticated' do
       before { get url }
       subject { last_response }
       its(:status) { should eql 401 }
@@ -100,6 +100,12 @@ describe Trogdir::API do
   describe 'POST /v1/people' do
     let(:method) { :post }
     let(:creation) { Person.first }
+
+    context 'when unauthenticated' do
+      before { post url }
+      subject { last_response }
+      its(:status) { should eql 401 }
+    end
 
     context 'without required params' do
       let(:params) { {first_name: 'Strong'} }

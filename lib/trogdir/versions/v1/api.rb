@@ -8,6 +8,8 @@ module Trogdir
       helpers ResponseHelpers
       helpers AuthenticationHelpers
 
+      before { authenticate! }
+
       rescue_from Mongoid::Errors::DocumentNotFound do |e|
         error! "404 Not Found", 404
       end
@@ -19,8 +21,6 @@ module Trogdir
           optional :type, type: Symbol, values: ID::TYPES, default: ID::DEFAULT_TYPE
         end
         get ':id', requirements: {id: /[0-9a-zA-Z\._-]+/} do
-          authenticate!
-
           conditions = {ids: {type: params[:type], identifier: params[:id]}}
 
           present elem_match_or_404(Person, conditions), with: PersonEntity
@@ -48,8 +48,6 @@ module Trogdir
           optional :privacy, type: Boolean
         end
         post do
-          authenticate!
-
           Person.create! clean_params
         end
       end
