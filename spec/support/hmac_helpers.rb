@@ -7,6 +7,10 @@ module HMACHelpers
     signed_request(:get, url, params, &block)
   end
 
+  def signed_post(url, params = nil, &block)
+    signed_request(:post, url, params, &block)
+  end
+
   def signed_request(method, url, params = nil, &block)
     syncinator = FactoryGirl.create :syncinator
     env = Rack::MockRequest.env_for(url, method: method, params: params)

@@ -5,34 +5,41 @@ describe Trogdir::API do
   include HMACHelpers
 
   let(:person) { create :person }
+  let(:method) { :get }
+  let(:url) { "/v1/people" }
+  let(:params) { {} }
+  let(:response) { send "signed_#{method}".to_sym, url, params }
+
+  subject { response }
 
   describe 'GET /v1/people/:id' do
     # periods in the URL can be interpreted as extensions to test that they work specifically
     let!(:netid) { create :id, person: person, type: :netid, identifier: 'with.period' }
     let!(:biola_id) { create :id, person: person, type: :biola_id }
 
+    let(:id) { netid }
+    let(:url) { "/v1/people/#{id}" }
+
     context 'unauthenticated request' do
-      it '401s' do
-        get "/v1/people/#{netid}"
-        expect(last_response.status).to eql 401
-      end
+      before { get url }
+      subject { last_response }
+      its(:status) { should eql 401 }
     end
 
     context 'without a type' do
       it 'finds a person by netid' do
-        signed_get "/v1/people/#{netid}" do |response|
-          expect(response.status).to eql 200
-          expect(JSON.parse(response.body)['last_name']).to eql person.last_name
-        end
+        expect(response.status).to eql 200
+        expect(JSON.parse(response.body)['last_name']).to eql person.last_name
       end
     end
 
     context 'with a type' do
+      let(:id) { biola_id }
+      let(:params) { {type: 'biola_id'} }
+
       it 'finds a person by id type' do
-        signed_get "/v1/people/#{biola_id}", type: 'biola_id' do |response|
-          expect(response.status).to eql 200
-          expect(JSON.parse(response.body)['_id']).to eql person._id.to_s
-        end
+        expect(response.status).to eql 200
+        expect(JSON.parse(response.body)['_id']).to eql person._id.to_s
       end
     end
 
@@ -86,6 +93,58 @@ describe Trogdir::API do
         # Options
         expect(subject[:privacy]).to eql person.privacy
         expect(subject[:enabled]).to eql person.enabled
+      end
+    end
+  end
+
+  describe 'POST /v1/people' do
+    let(:method) { :post }
+    let(:creation) { Person.first }
+
+    context 'without required params' do
+      let(:params) { {first_name: 'Strong'} }
+      its(:status) { should eql 400 }
+    end
+
+    context 'with required params' do
+      let(:params) { {first_name: 'Strong', last_name: 'Bad'} }
+      let(:creation) { Person.first }
+      it 'creates a person' do
+        expect(response.status).to eql 201
+        expect(Person.count).to eql 1
+        expect(creation.first_name).to eql 'Strong'
+        expect(creation.last_name).to eql 'Bad'
+      end
+    end
+
+    context 'with all params' do
+      let(:params) { {
+        first_name: 'Strong',
+        preferred_name: 'Depressio',
+        middle_name: 'P',
+        last_name: 'Sad',
+        display_name: 'Strong Sad',
+        gender: 'male',
+        partial_ssn: '0000',
+        birth_date: 30.years.ago.to_s,
+        entitlements: ['brothers:strong'],
+        affiliations: ['cartoon'],
+        privacy: 'true'
+      } }
+      it 'creates a person' do
+        expect(response.status).to eql 201
+        expect(Person.count).to eql 1
+        expect(creation.first_name).to eql 'Strong'
+        expect(creation.preferred_name).to eql 'Depressio'
+        expect(creation.middle_name).to eql 'P'
+        expect(creation.last_name).to eql 'Sad'
+        expect(creation.display_name).to eql 'Strong Sad'
+        expect(creation.gender).to eql :male
+        expect(creation.partial_ssn).to eql '0000'
+        expect(creation.birth_date).to eql 30.years.ago.to_date
+        expect(creation.entitlements).to eql ['brothers:strong']
+        expect(creation.affiliations).to eql ['cartoon']
+        expect(creation.privacy).to eql true
       end
     end
   end

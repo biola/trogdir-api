@@ -64,7 +64,7 @@ GEM
       easy_diff
       mongoid (>= 3.0)
     moped (1.5.2)
-    multi_json (1.9.0)
+    multi_json (1.9.2)
     multi_xml (0.5.5)
     origin (1.1.0)
     polyglot (0.3.4)
