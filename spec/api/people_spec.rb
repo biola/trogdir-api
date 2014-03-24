@@ -182,8 +182,8 @@ describe Trogdir::API do
 
   describe 'GET /v1/people/:person_id/ids' do
     let(:url) { "/v1/people/#{person_id}/ids" }
-    let!(:id1) { create :id, person: person }
-    let!(:id2) { create :id, person: person }
+    let!(:netid) { create :id, person: person, type: :netid }
+    let!(:biola_id) { create :id, person: person, type: :biola_id }
 
     context 'when unauthenticated' do
       before { get url }
@@ -192,12 +192,20 @@ describe Trogdir::API do
     end
 
     its(:status) { should eql 200 }
-    it { expect(json).to eql [{'type' => id1.type.to_s, 'identifier' => id1.identifier}, {'type' => id2.type.to_s, 'identifier' => id2.identifier}] }
+    it { expect(json).to eql [{'type' => netid.type.to_s, 'identifier' => netid.identifier}, {'type' => biola_id.type.to_s, 'identifier' => biola_id.identifier}] }
 
-    describe 'GET /v1/people:person_id/ids/:id_id' do
-      let(:id_id) { id2.id }
+    describe 'GET /v1/people/:person_id/ids/:id_id' do
+      let(:id_id) { biola_id.id }
       let(:url) { "/v1/people/#{person_id}/ids/#{id_id}" }
-      it { expect(json).to eql type: id2.type.to_s, identifier: id2.identifier }
+      its(:status) { should eql 200}
+      it { expect(json).to eql type: biola_id.type.to_s, identifier: biola_id.identifier }
+    end
+
+    describe 'POST /v1/people/:person_id/ids' do
+      let(:method) { :post }
+      let(:params) { {type: 'google_apps', identifier: 'the.cheat'} }
+      its(:status) { should eql 201 }
+      it { expect { signed_post(url, params) }.to change { person.reload.ids.count }.by 1 }
     end
   end
 end

@@ -97,6 +97,14 @@ module Trogdir
             get ':id_id' do
               present Person.find(params[:person_id]).ids.find(params[:id_id]), with: IDEntity
             end
+
+            params do
+               requires :type, type: Symbol, values: ID::TYPES
+               requires :identifier
+            end
+            post do
+              Person.find(params[:person_id]).ids.create! clean_params(except: :person_id)
+            end
           end
         end
       end
