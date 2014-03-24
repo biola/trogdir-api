@@ -105,6 +105,15 @@ module Trogdir
             post do
               Person.find(params[:person_id]).ids.create! clean_params(except: :person_id)
             end
+
+            params do
+              requires :id_id, type: String
+              optional :type, type: Symbol, values: ID::TYPES
+              optional :identifier
+            end
+            put ':id_id' do
+              Person.find(params[:person_id]).ids.find(params[:id_id]).update_attributes! clean_params(except: [:person_id, :id_id])
+            end
           end
         end
       end

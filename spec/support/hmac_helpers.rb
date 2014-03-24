@@ -3,15 +3,11 @@ module HMACHelpers
     Trogdir::API
   end
 
-  def signed_get(url, params = nil, &block)
-    signed_request(:get, url, params, &block)
+  [:get, :post, :put].each do |verb|
+    define_method("signed_#{verb}") { |url, params| signed_request(verb, url, params) }
   end
 
-  def signed_post(url, params = nil, &block)
-    signed_request(:post, url, params, &block)
-  end
-
-  def signed_request(method, url, params = nil, &block)
+  def signed_request(method, url, params = nil)
     syncinator = FactoryGirl.create :syncinator
     env = Rack::MockRequest.env_for(url, method: method, params: params)
 
@@ -19,8 +15,6 @@ module HMACHelpers
       ApiAuth.sign! r, syncinator.access_id, syncinator.secret_key
     end
 
-    Rack::MockResponse.new(*app.call(req.env)).tap do |resp|
-      block.call(resp) if block_given?
-    end
+    Rack::MockResponse.new *app.call(req.env)
   end
 end
