@@ -15,23 +15,23 @@ module Trogdir
       end
 
       resource :people do
-        desc 'Return a person', {params: PersonEntity.documentation.except(:enabled)}
-        params do
-          requires :id, desc: 'Object ID'
-        end
-        get ':id', requirements: {id: /[0-9a-f]{24}/} do
-          present Person.find(params[:id]), with: PersonEntity
-        end
-
         desc 'Return a person by associated id', {params: PersonEntity.documentation.except(:enabled)}
         params do
-          requires :id, desc: 'Associated identifier'
+          requires :identifier, desc: 'Associated identifier'
           optional :type, type: Symbol, values: ID::TYPES, default: ID::DEFAULT_TYPE
         end
-        get 'by_id/:id', requirements: {id: /[0-9a-zA-Z\._-]+/} do
-          conditions = {ids: {type: params[:type], identifier: params[:id]}}
+        get 'by_id/:identifier', requirements: {identifier: /[0-9a-zA-Z\._-]+/} do
+          conditions = {ids: {type: params[:type], identifier: params[:identifier]}}
 
           present elem_match_or_404(Person, conditions), with: PersonEntity
+        end
+
+        desc 'Return a person', {params: PersonEntity.documentation.except(:enabled)}
+        params do
+          requires :person_id, desc: 'Person ID'
+        end
+        get ':person_id', requirements: {person_id: /[0-9a-f]{24}/} do
+          present Person.find(params[:person_id]), with: PersonEntity
         end
 
         desc 'Create a person'
@@ -82,6 +82,14 @@ module Trogdir
         end
         put do
           Person.create! clean_params
+        end
+
+        resource ':person_id' do
+          resource :ids do
+            get do
+              present Person.find(params[:person_id]).ids, with: IDEntity
+            end
+          end
         end
       end
     end

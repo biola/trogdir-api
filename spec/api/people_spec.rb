@@ -5,17 +5,21 @@ describe Trogdir::API do
   include HMACHelpers
 
   let(:person) { create :person }
+  let(:person_id) { person.id }
   let(:method) { :get }
   let(:url) { "/v1/people" }
   let(:params) { {} }
   let(:response) { send "signed_#{method}".to_sym, url, params }
-  let(:json) { JSON.parse(response.body).deep_symbolize_keys }
+  let(:json) do
+    js = JSON.parse(response.body)
+    js = js.deep_symbolize_keys if js.respond_to? :deep_symbolize_keys
+    js
+  end
 
   subject { response }
 
   describe 'GET /v1/people/:id' do
-    let(:uid) { person.id }
-    let(:url) { "/v1/people/#{uid}" }
+    let(:url) { "/v1/people/#{person_id}" }
 
     context 'when unauthenticated' do
       before { get url }
@@ -24,7 +28,7 @@ describe Trogdir::API do
     end
 
     context 'with an bogus id' do
-      let(:uid) { 'fhqwhgads' }
+      let(:person_id) { 'fhqwhgads' }
 
       it '404s' do
         signed_get url do |response|
@@ -174,5 +178,20 @@ describe Trogdir::API do
         expect(creation.privacy).to eql true
       end
     end
+  end
+
+  describe 'GET /v1/people/:person_id/ids' do
+    let(:url) { "/v1/people/#{person_id}/ids" }
+    let!(:id1) { create :id, person: person }
+    let!(:id2) { create :id, person: person }
+
+    context 'when unauthenticated' do
+      before { get url }
+      subject { last_response }
+      its(:status) { should eql 401 }
+    end
+
+    its(:status) { should eql 200 }
+    it { expect(json).to eql [{'type' => id1.type.to_s, 'identifier' => id1.identifier}, {'type' => id2.type.to_s, 'identifier' => id2.identifier}] }
   end
 end
