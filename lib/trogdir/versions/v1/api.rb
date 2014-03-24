@@ -17,10 +17,18 @@ module Trogdir
       resource :people do
         desc 'Return a person', {params: PersonEntity.documentation.except(:enabled)}
         params do
-          requires :id, desc: 'Identifier'
+          requires :id, desc: 'Object ID'
+        end
+        get ':id', requirements: {id: /[0-9a-f]{24}/} do
+          present Person.find(params[:id]), with: PersonEntity
+        end
+
+        desc 'Return a person by associated id', {params: PersonEntity.documentation.except(:enabled)}
+        params do
+          requires :id, desc: 'Associated identifier'
           optional :type, type: Symbol, values: ID::TYPES, default: ID::DEFAULT_TYPE
         end
-        get ':id', requirements: {id: /[0-9a-zA-Z\._-]+/} do
+        get 'by_id/:id', requirements: {id: /[0-9a-zA-Z\._-]+/} do
           conditions = {ids: {type: params[:type], identifier: params[:id]}}
 
           present elem_match_or_404(Person, conditions), with: PersonEntity
@@ -48,6 +56,31 @@ module Trogdir
           optional :privacy, type: Boolean
         end
         post do
+          Person.create! clean_params
+        end
+
+        desc 'Update a person'
+        params do
+          # Names
+          optional :first_name, type: String
+          optional :preferred_name, type: String
+          optional :middle_name, type: String
+          optional :last_name, type: String
+          optional :display_name, type: String
+
+          # Demographic
+          optional :gender, type: Symbol, values: Person::GENDERS
+          optional :partial_ssn, type: String
+          optional :birth_date, type: Date
+
+          # Groups and permissions
+          optional :entitlements, type: Array
+          optional :affiliations, type: Array
+
+          # Options
+          optional :privacy, type: Boolean
+        end
+        put do
           Person.create! clean_params
         end
       end
