@@ -193,5 +193,11 @@ describe Trogdir::API do
 
     its(:status) { should eql 200 }
     it { expect(json).to eql [{'type' => id1.type.to_s, 'identifier' => id1.identifier}, {'type' => id2.type.to_s, 'identifier' => id2.identifier}] }
+
+    describe 'GET /v1/people:person_id/ids/:id_id' do
+      let(:id_id) { id2.id }
+      let(:url) { "/v1/people/#{person_id}/ids/#{id_id}" }
+      it { expect(json).to eql type: id2.type.to_s, identifier: id2.identifier }
+    end
   end
 end

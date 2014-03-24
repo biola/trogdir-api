@@ -89,6 +89,14 @@ module Trogdir
             get do
               present Person.find(params[:person_id]).ids, with: IDEntity
             end
+
+            params do
+              # Stupid name. I know. But you get the idea.
+              requires :id_id, type: String
+            end
+            get ':id_id' do
+              present Person.find(params[:person_id]).ids.find(params[:id_id]), with: IDEntity
+            end
           end
         end
       end
