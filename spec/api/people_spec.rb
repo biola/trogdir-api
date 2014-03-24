@@ -211,5 +211,12 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect { signed_put(url, params) }.to change { biola_id.reload.identifier }.from('0000000').to '1234567' }
     end
+
+    describe 'DELETE /v1/people/:person_id/ids/:id_id' do
+      let(:method) { :put }
+      let(:url) { "/v1/people/#{person_id}/ids/#{id_id}" }
+      its(:status) { should eql 200 }
+      it { expect { signed_delete(url, params) }.to change { person.reload.ids.count }.by -1 }
+    end
   end
 end

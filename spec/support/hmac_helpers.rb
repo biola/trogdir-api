@@ -3,7 +3,7 @@ module HMACHelpers
     Trogdir::API
   end
 
-  [:get, :post, :put].each do |verb|
+  [:get, :post, :put, :delete].each do |verb|
     define_method("signed_#{verb}") { |url, params| signed_request(verb, url, params) }
   end
 
