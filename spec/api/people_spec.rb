@@ -283,5 +283,12 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect(json).to eql type: id_card.type.to_s, url: id_card.url, height: id_card.height, width: id_card.width }
     end
+
+    describe 'POST /v1/people/:person_id/photos' do
+      let(:method) { :post }
+      let(:params) { {type: 'id_card', url: 'http://example.com/photo.jpg', height: '42', width: '42'} }
+      its(:status) { should eql 201 }
+      it { expect { signed_post(url, params) }.to change { person.reload.photos.count }.by 1 }
+    end
   end
 end

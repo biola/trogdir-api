@@ -173,6 +173,16 @@ module Trogdir
             get ':photo_id' do
               present Person.find(params[:person_id]).photos.find(params[:photo_id]), with: PhotoEntity
             end
+
+            params do
+              requires :type, type: Symbol, values: Photo::TYPES
+              requires :url, type: String
+              requires :height, type: Integer
+              requires :width, type: Integer
+            end
+            post do
+              Person.find(params[:person_id]).photos.create! clean_params(except: :person_id)
+            end
           end
         end
       end
