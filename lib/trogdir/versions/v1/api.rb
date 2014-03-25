@@ -153,6 +153,13 @@ module Trogdir
             put ':email_id' do
               Person.find(params[:person_id]).emails.find(params[:email_id]).update_attributes! clean_params(except: [:person_id, :email_id])
             end
+
+            params do
+              requires :email_id, type: String
+            end
+            delete ':email_id' do
+              Person.find(params[:person_id]).emails.find(params[:email_id]).destroy
+            end
           end
         end
       end

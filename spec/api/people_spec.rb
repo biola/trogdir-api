@@ -255,5 +255,12 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect { signed_put(url, params) }.to change { personal.reload.address }.from('trogdor@example.com').to 'burninator@example.com' }
     end
+
+    describe 'DELETE /v1/people/:person_id/emails/:email_id' do
+      let(:method) { :put }
+      let(:url) { "/v1/people/#{person_id}/emails/#{email_id}" }
+      its(:status) { should eql 200 }
+      it { expect { signed_delete(url, params) }.to change { person.reload.emails.count }.by -1 }
+    end
   end
 end
