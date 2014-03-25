@@ -194,6 +194,13 @@ module Trogdir
             put ':photo_id' do
               Person.find(params[:person_id]).photos.find(params[:photo_id]).update_attributes! clean_params(except: [:person_id, :photo_id])
             end
+
+            params do
+              requires :photo_id, type: String
+            end
+            delete ':photo_id' do
+              Person.find(params[:person_id]).photos.find(params[:photo_id]).destroy
+            end
           end
         end
       end
