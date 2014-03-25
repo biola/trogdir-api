@@ -161,6 +161,12 @@ module Trogdir
               Person.find(params[:person_id]).emails.find(params[:email_id]).destroy
             end
           end
+
+          resource :photos do
+            get do
+              present Person.find(params[:person_id]).photos, with: PhotoEntity
+            end
+          end
         end
       end
     end
