@@ -99,8 +99,8 @@ module Trogdir
             end
 
             params do
-               requires :type, type: Symbol, values: ID::TYPES
-               requires :identifier
+              requires :type, type: Symbol, values: ID::TYPES
+              requires :identifier
             end
             post do
               Person.find(params[:person_id]).ids.create! clean_params(except: :person_id)
@@ -133,6 +133,15 @@ module Trogdir
             end
             get ':email_id' do
               present Person.find(params[:person_id]).emails.find(params[:email_id]), with: EmailEntity
+            end
+
+            params do
+              requires :type, type: Symbol, values: Email::TYPES
+              requires :address, type: String
+              optional :primary
+            end
+            post do
+              Person.find(params[:person_id]).emails.create! clean_params(except: :person_id)
             end
           end
         end

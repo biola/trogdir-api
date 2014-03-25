@@ -240,5 +240,12 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect(json).to eql type: personal.type.to_s, address: personal.address, primary: false }
     end
+
+    describe 'POST /v1/people/:person_id/emails' do
+      let(:method) { :post }
+      let(:params) { {type: 'personal', address: 'the.cheat@example.com'} }
+      its(:status) { should eql 201 }
+      it { expect { signed_post(url, params) }.to change { person.reload.emails.count }.by 1 }
+    end
   end
 end
