@@ -223,7 +223,7 @@ describe Trogdir::API do
   describe 'GET /v1/people/:person_id/emails' do
     let(:url) { "/v1/people/#{person_id}/emails" }
     let!(:university) { create :email, person: person, type: :university, primary: true }
-    let!(:personal) { create :email, person: person, type: :personal, address: 'john.doe@example.com' }
+    let!(:personal) { create :email, person: person, type: :personal, address: 'trogdor@example.com' }
     let(:email_id) { personal.id }
 
     context 'when unauthenticated' do
@@ -246,6 +246,14 @@ describe Trogdir::API do
       let(:params) { {type: 'personal', address: 'the.cheat@example.com'} }
       its(:status) { should eql 201 }
       it { expect { signed_post(url, params) }.to change { person.reload.emails.count }.by 1 }
+    end
+
+    describe 'PUT /v1/people/:person_id/emails/:email_id' do
+      let(:method) { :put }
+      let(:url) { "/v1/people/#{person_id}/emails/#{email_id}" }
+      let(:params) { {address: 'burninator@example.com'} }
+      its(:status) { should eql 200 }
+      it { expect { signed_put(url, params) }.to change { personal.reload.address }.from('trogdor@example.com').to 'burninator@example.com' }
     end
   end
 end
