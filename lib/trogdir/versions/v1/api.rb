@@ -166,6 +166,13 @@ module Trogdir
             get do
               present Person.find(params[:person_id]).photos, with: PhotoEntity
             end
+
+            params do
+              requires :photo_id, type: String
+            end
+            get ':photo_id' do
+              present Person.find(params[:person_id]).photos.find(params[:photo_id]), with: PhotoEntity
+            end
           end
         end
       end

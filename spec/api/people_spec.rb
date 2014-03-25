@@ -277,5 +277,11 @@ describe Trogdir::API do
 
     its(:status) { should eql 200 }
     it { expect(json).to eql [{'type' => id_card.type.to_s, 'url' => id_card.url, 'height' => id_card.height, 'width' => id_card.width}] }
+
+    describe 'GET /v1/people/:person_id/photos/:photo_id' do
+      let(:url) { "/v1/people/#{person_id}/photos/#{id_card.id}" }
+      its(:status) { should eql 200 }
+      it { expect(json).to eql type: id_card.type.to_s, url: id_card.url, height: id_card.height, width: id_card.width }
+    end
   end
 end
