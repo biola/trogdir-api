@@ -127,6 +127,13 @@ module Trogdir
             get do
               present Person.find(params[:person_id]).emails, with: EmailEntity
             end
+
+            params do
+              requires :email_id, type: String
+            end
+            get ':email_id' do
+              present Person.find(params[:person_id]).emails.find(params[:email_id]), with: EmailEntity
+            end
           end
         end
       end

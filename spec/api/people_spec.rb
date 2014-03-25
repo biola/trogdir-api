@@ -193,7 +193,7 @@ describe Trogdir::API do
 
     describe 'GET /v1/people/:person_id/ids/:id_id' do
       let(:url) { "/v1/people/#{person_id}/ids/#{id_id}" }
-      its(:status) { should eql 200}
+      its(:status) { should eql 200 }
       it { expect(json).to eql type: biola_id.type.to_s, identifier: biola_id.identifier }
     end
 
@@ -222,7 +222,7 @@ describe Trogdir::API do
 
   describe 'GET /v1/people/:person_id/emails' do
     let(:url) { "/v1/people/#{person_id}/emails" }
-    let!(:university) { create :email, person: person, type: :university }
+    let!(:university) { create :email, person: person, type: :university, primary: true }
     let!(:personal) { create :email, person: person, type: :personal, address: 'john.doe@example.com' }
     let(:email_id) { personal.id }
 
@@ -234,5 +234,11 @@ describe Trogdir::API do
 
     its(:status) { should eql 200 }
     it { expect(json).to eql [{'type' => university.type.to_s, 'address' => university.address, 'primary' => university.primary}, {'type' => personal.type.to_s, 'address' => personal.address, 'primary' => personal.primary}] }
+
+    describe 'GET /v1/people/:person_id/emails/:email_id' do
+      let(:url) { "/v1/people/#{person_id}/emails/#{personal.id}" }
+      its(:status) { should eql 200 }
+      it { expect(json).to eql type: personal.type.to_s, address: personal.address, primary: false }
+    end
   end
 end
