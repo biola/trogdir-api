@@ -266,7 +266,7 @@ describe Trogdir::API do
 
   describe 'GET /v1/people/:person_id/photos' do
     let(:url) { "/v1/people/#{person_id}/photos" }
-    let!(:id_card) { create :photo, person: person }
+    let!(:id_card) { create :photo, person: person, width: 42 }
     let(:photo_id) { id_card.id }
 
     context 'when unauthenticated' do
@@ -289,6 +289,14 @@ describe Trogdir::API do
       let(:params) { {type: 'id_card', url: 'http://example.com/photo.jpg', height: '42', width: '42'} }
       its(:status) { should eql 201 }
       it { expect { signed_post(url, params) }.to change { person.reload.photos.count }.by 1 }
+    end
+
+    describe 'PUT /v1/people/:person_id/photos/:photo_id' do
+      let(:method) { :put }
+      let(:url) { "/v1/people/#{person_id}/photos/#{photo_id}" }
+      let(:params) { {width: '43'} }
+      its(:status) { should eql 200 }
+      it { expect { signed_put(url, params) }.to change { id_card.reload.width }.from(42).to 43 }
     end
   end
 end
