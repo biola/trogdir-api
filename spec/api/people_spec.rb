@@ -213,7 +213,7 @@ describe Trogdir::API do
     end
 
     describe 'DELETE /v1/people/:person_id/ids/:id_id' do
-      let(:method) { :put }
+      let(:method) { :delete }
       let(:url) { "/v1/people/#{person_id}/ids/#{id_id}" }
       its(:status) { should eql 200 }
       it { expect { signed_delete(url, params) }.to change { person.reload.ids.count }.by -1 }
@@ -257,7 +257,7 @@ describe Trogdir::API do
     end
 
     describe 'DELETE /v1/people/:person_id/emails/:email_id' do
-      let(:method) { :put }
+      let(:method) { :delete }
       let(:url) { "/v1/people/#{person_id}/emails/#{email_id}" }
       its(:status) { should eql 200 }
       it { expect { signed_delete(url, params) }.to change { person.reload.emails.count }.by -1 }
