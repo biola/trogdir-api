@@ -219,4 +219,20 @@ describe Trogdir::API do
       it { expect { signed_delete(url, params) }.to change { person.reload.ids.count }.by -1 }
     end
   end
+
+  describe 'GET /v1/people/:person_id/emails' do
+    let(:url) { "/v1/people/#{person_id}/emails" }
+    let!(:university) { create :email, person: person, type: :university }
+    let!(:personal) { create :email, person: person, type: :personal, address: 'john.doe@example.com' }
+    let(:email_id) { personal.id }
+
+    context 'when unauthenticated' do
+      before { get url }
+      subject { last_response }
+      its(:status) { should eql 401 }
+    end
+
+    its(:status) { should eql 200 }
+    it { expect(json).to eql [{'type' => university.type.to_s, 'address' => university.address, 'primary' => university.primary}, {'type' => personal.type.to_s, 'address' => personal.address, 'primary' => personal.primary}] }
+  end
 end

@@ -122,6 +122,12 @@ module Trogdir
               Person.find(params[:person_id]).ids.find(params[:id_id]).destroy
             end
           end
+
+          resource :emails do
+            get do
+              present Person.find(params[:person_id]).emails, with: EmailEntity
+            end
+          end
         end
       end
     end
