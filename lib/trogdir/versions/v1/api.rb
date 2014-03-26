@@ -246,6 +246,13 @@ module Trogdir
             get do
               present Person.find(params[:person_id]).addresses, with: AddressEntity
             end
+
+            params do
+              requires :address_id, type: String
+            end
+            get ':address_id' do
+              present Person.find(params[:person_id]).addresses.find(params[:address_id]), with: AddressEntity
+            end
           end
         end
       end

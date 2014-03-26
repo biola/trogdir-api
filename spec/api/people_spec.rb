@@ -354,7 +354,7 @@ describe Trogdir::API do
   describe 'GET /v1/people/:person_id/addresses' do
     let(:url) { "/v1/people/#{person_id}/addresses" }
     let!(:home) { create :address, person: person, type: :home }
-    let(:address_id) { cell.id }
+    let(:address_id) { home.id }
 
     context 'when unauthenticated' do
       before { get url }
@@ -364,5 +364,11 @@ describe Trogdir::API do
 
     its(:status) { should eql 200 }
     it { expect(json).to eql [{'type' => home.type.to_s, 'street_1' => home.street_1, 'street_2' => home.street_2, 'city' => home.city, 'state' => home.state, 'zip' => home.zip, 'country' => home.country}] }
+
+    describe 'GET /v1/people/:person_id/addresses/:address_id' do
+      let(:url) { "/v1/people/#{person_id}/addresses/#{home.id}" }
+      its(:status) { should eql 200 }
+      it { expect(json).to eql type: home.type.to_s, street_1: home.street_1, street_2: home.street_2, city: home.city, state: home.state, zip: home.zip, country: home.country }
+    end
   end
 end
