@@ -253,6 +253,19 @@ module Trogdir
             get ':address_id' do
               present Person.find(params[:person_id]).addresses.find(params[:address_id]), with: AddressEntity
             end
+
+            params do
+              requires :type, type: Symbol, values: Address::TYPES
+              requires :street_1, type: String
+              optional :street_1, type: String
+              optional :city, type: String
+              optional :state, type: String
+              optional :zip, type: String
+              optional :contry, type: String
+            end
+            post do
+              Person.find(params[:person_id]).addresses.create! clean_params(except: :person_id)
+            end
           end
         end
       end

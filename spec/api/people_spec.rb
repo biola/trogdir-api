@@ -370,5 +370,12 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect(json).to eql type: home.type.to_s, street_1: home.street_1, street_2: home.street_2, city: home.city, state: home.state, zip: home.zip, country: home.country }
     end
+
+    describe 'POST /v1/people/:person_id/addresses' do
+      let(:method) { :post }
+       let(:params) { {type: 'home', street_1: '123 Nowhere St'} }
+      its(:status) { should eql 201 }
+      it { expect { signed_post(url, params) }.to change { person.reload.addresses.count }.by 1 }
+    end
   end
 end
