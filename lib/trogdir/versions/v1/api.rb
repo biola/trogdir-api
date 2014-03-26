@@ -207,6 +207,13 @@ module Trogdir
             get do
               present Person.find(params[:person_id]).phones, with: PhoneEntity
             end
+
+            params do
+              requires :phone_id, type: String
+            end
+            get ':phone_id' do
+              present Person.find(params[:person_id]).phones.find(params[:phone_id]), with: PhoneEntity
+            end
           end
         end
       end
