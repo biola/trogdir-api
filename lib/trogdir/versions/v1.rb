@@ -1,6 +1,12 @@
 module Trogdir
   module V1
     autoload :API, File.expand_path('../../../trogdir/versions/v1/api', __FILE__)
+    autoload :PeopleAPI, File.expand_path('../../../trogdir/versions/v1/people_api', __FILE__)
+    autoload :IDsAPI, File.expand_path('../../../trogdir/versions/v1/ids_api', __FILE__)
+    autoload :EmailsAPI, File.expand_path('../../../trogdir/versions/v1/emails_api', __FILE__)
+    autoload :PhotosAPI, File.expand_path('../../../trogdir/versions/v1/photos_api', __FILE__)
+    autoload :PhonesAPI, File.expand_path('../../../trogdir/versions/v1/phones_api', __FILE__)
+    autoload :AddressesAPI, File.expand_path('../../../trogdir/versions/v1/addresses_api', __FILE__)
     autoload :PersonEntity, File.expand_path('../../../trogdir/versions/v1/entities/person', __FILE__)
     autoload :IDEntity, File.expand_path('../../../trogdir/versions/v1/entities/id', __FILE__)
     autoload :EmailEntity, File.expand_path('../../../trogdir/versions/v1/entities/email', __FILE__)
