@@ -44,7 +44,7 @@ describe Trogdir::API do
         expect(json[:ids].first.symbolize_keys).to eql type: id.type.to_s, identifier: id.identifier
         expect(json[:emails].first.symbolize_keys).to eql type: email.type.to_s, address: email.address, primary: false
         expect(json[:photos].first.symbolize_keys).to eql type: photo.type.to_s, url: photo.url, height: photo.height, width: photo.width
-        expect(json[:phones].first.symbolize_keys).to eql type: phone.type.to_s, number: phone.number
+        expect(json[:phones].first.symbolize_keys).to eql type: phone.type.to_s, number: phone.number, primary: false
         expect(json[:addresses].first.symbolize_keys).to eql type: address.type.to_s, street_1: address.street_1, street_2: address.street_2, city: address.city, state: address.state, zip: address.zip, country: address.country
 
         # Names
@@ -305,5 +305,21 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect { signed_delete(url, params) }.to change { person.reload.photos.count }.by -1 }
     end
+  end
+
+  describe 'GET /v1/people/:person_id/phones' do
+    let(:url) { "/v1/people/#{person_id}/phones" }
+    let!(:home) { create :phone, person: person, type: :home }
+    let!(:cell) { create :phone, person: person, type: :cell }
+    let(:phono_id) { cell.id }
+
+    context 'when unauthenticated' do
+      before { get url }
+      subject { last_response }
+      its(:status) { should eql 401 }
+    end
+
+    its(:status) { should eql 200 }
+    it { expect(json).to eql [{'type' => home.type.to_s, 'number' => home.number, 'primary' => home.primary}, {'type' => cell.type.to_s, 'number' => cell.number, 'primary' => cell.primary}] }
   end
 end

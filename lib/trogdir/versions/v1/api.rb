@@ -202,6 +202,12 @@ module Trogdir
               Person.find(params[:person_id]).photos.find(params[:photo_id]).destroy
             end
           end
+
+          resource :phones do
+            get do
+              present Person.find(params[:person_id]).phones, with: PhoneEntity
+            end
+          end
         end
       end
     end
