@@ -385,5 +385,12 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect { signed_put(url, params) }.to change { home.reload.street_1 }.from('The Stick').to 'Strongbadia' }
     end
+
+    describe 'DELETE /v1/people/:person_id/addresses/:address_id' do
+      let(:method) { :delete }
+      let(:url) { "/v1/people/#{person_id}/addresses/#{address_id}" }
+      its(:status) { should eql 200 }
+      it { expect { signed_delete(url, params) }.to change { person.reload.addresses.count }.by -1 }
+    end
   end
 end
