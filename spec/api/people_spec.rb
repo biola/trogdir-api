@@ -310,8 +310,8 @@ describe Trogdir::API do
   describe 'GET /v1/people/:person_id/phones' do
     let(:url) { "/v1/people/#{person_id}/phones" }
     let!(:home) { create :phone, person: person, type: :home }
-    let!(:cell) { create :phone, person: person, type: :cell }
-    let(:phono_id) { cell.id }
+    let!(:cell) { create :phone, person: person, type: :cell, number: '123-123-1234' }
+    let(:phone_id) { cell.id }
 
     context 'when unauthenticated' do
       before { get url }
@@ -333,6 +333,14 @@ describe Trogdir::API do
        let(:params) { {type: 'office', number: '123-123-1234', primary: true} }
       its(:status) { should eql 201 }
       it { expect { signed_post(url, params) }.to change { person.reload.phones.count }.by 1 }
+    end
+
+    describe 'PUT /v1/people/:person_id/phones/:phone_id' do
+      let(:method) { :put }
+      let(:url) { "/v1/people/#{person_id}/phones/#{phone_id}" }
+      let(:params) { {number: '456-456-4567'} }
+      its(:status) { should eql 200 }
+      it { expect { signed_put(url, params) }.to change { cell.reload.number }.from('123-123-1234').to '456-456-4567' }
     end
   end
 end
