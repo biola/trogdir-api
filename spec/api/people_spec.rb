@@ -350,4 +350,19 @@ describe Trogdir::API do
       it { expect { signed_delete(url, params) }.to change { person.reload.phones.count }.by -1 }
     end
   end
+
+  describe 'GET /v1/people/:person_id/addresses' do
+    let(:url) { "/v1/people/#{person_id}/addresses" }
+    let!(:home) { create :address, person: person, type: :home }
+    let(:address_id) { cell.id }
+
+    context 'when unauthenticated' do
+      before { get url }
+      subject { last_response }
+      its(:status) { should eql 401 }
+    end
+
+    its(:status) { should eql 200 }
+    it { expect(json).to eql [{'type' => home.type.to_s, 'street_1' => home.street_1, 'street_2' => home.street_2, 'city' => home.city, 'state' => home.state, 'zip' => home.zip, 'country' => home.country}] }
+  end
 end

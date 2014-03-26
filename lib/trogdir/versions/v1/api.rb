@@ -241,6 +241,12 @@ module Trogdir
               Person.find(params[:person_id]).phones.find(params[:phone_id]).destroy
             end
           end
+
+          resource :addresses do
+            get do
+              present Person.find(params[:person_id]).addresses, with: AddressEntity
+            end
+          end
         end
       end
     end
