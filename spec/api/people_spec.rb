@@ -353,7 +353,7 @@ describe Trogdir::API do
 
   describe 'GET /v1/people/:person_id/addresses' do
     let(:url) { "/v1/people/#{person_id}/addresses" }
-    let!(:home) { create :address, person: person, type: :home }
+    let!(:home) { create :address, person: person, type: :home, street_1: 'The Stick' }
     let(:address_id) { home.id }
 
     context 'when unauthenticated' do
@@ -376,6 +376,14 @@ describe Trogdir::API do
        let(:params) { {type: 'home', street_1: '123 Nowhere St'} }
       its(:status) { should eql 201 }
       it { expect { signed_post(url, params) }.to change { person.reload.addresses.count }.by 1 }
+    end
+
+    describe 'PUT /v1/people/:person_id/addresses/:address_id' do
+      let(:method) { :put }
+      let(:url) { "/v1/people/#{person_id}/addresses/#{address_id}" }
+      let(:params) { {street_1: 'Strongbadia'} }
+      its(:status) { should eql 200 }
+      it { expect { signed_put(url, params) }.to change { home.reload.street_1 }.from('The Stick').to 'Strongbadia' }
     end
   end
 end
