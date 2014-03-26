@@ -342,5 +342,12 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect { signed_put(url, params) }.to change { cell.reload.number }.from('123-123-1234').to '456-456-4567' }
     end
+
+    describe 'DELETE /v1/people/:person_id/phones/:phone_id' do
+      let(:method) { :delete }
+      let(:url) { "/v1/people/#{person_id}/phones/#{phone_id}" }
+      its(:status) { should eql 200 }
+      it { expect { signed_delete(url, params) }.to change { person.reload.phones.count }.by -1 }
+    end
   end
 end

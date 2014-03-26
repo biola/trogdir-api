@@ -233,6 +233,13 @@ module Trogdir
             put ':phone_id' do
               Person.find(params[:person_id]).phones.find(params[:phone_id]).update_attributes! clean_params(except: [:person_id, :phone_id])
             end
+
+            params do
+              requires :phone_id, type: String
+            end
+            delete ':phone_id' do
+              Person.find(params[:person_id]).phones.find(params[:phone_id]).destroy
+            end
           end
         end
       end
