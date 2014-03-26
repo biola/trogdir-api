@@ -327,5 +327,12 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect(json).to eql type: cell.type.to_s, number: cell.number, primary: cell.primary }
     end
+
+    describe 'POST /v1/people/:person_id/phones' do
+      let(:method) { :post }
+       let(:params) { {type: 'office', number: '123-123-1234', primary: true} }
+      its(:status) { should eql 201 }
+      it { expect { signed_post(url, params) }.to change { person.reload.phones.count }.by 1 }
+    end
   end
 end

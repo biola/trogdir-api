@@ -214,6 +214,15 @@ module Trogdir
             get ':phone_id' do
               present Person.find(params[:person_id]).phones.find(params[:phone_id]), with: PhoneEntity
             end
+
+            params do
+              requires :type, type: Symbol, values: Phone::TYPES
+              requires :number, type: String
+              optional :primary, type: Boolean
+            end
+            post do
+              Person.find(params[:person_id]).phones.create! clean_params(except: :person_id)
+            end
           end
         end
       end
