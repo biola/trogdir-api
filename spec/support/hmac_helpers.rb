@@ -4,11 +4,11 @@ module HMACHelpers
   end
 
   [:get, :post, :put, :delete].each do |verb|
-    define_method("signed_#{verb}") { |url, params| signed_request(verb, url, params) }
+    define_method("signed_#{verb}") { |url, params = nil, syncinator = nil| signed_request(verb, url, params, syncinator) }
   end
 
-  def signed_request(method, url, params = nil)
-    syncinator = FactoryGirl.create :syncinator
+  def signed_request(method, url, params = nil, syncinator = nil)
+    syncinator ||= FactoryGirl.create :syncinator
     env = Rack::MockRequest.env_for(url, method: method, params: params)
 
     req = Rack::Request.new(env).tap do |r|

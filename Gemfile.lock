@@ -101,7 +101,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    trogdir_models (0.1.2)
+    trogdir_models (0.3.0)
       api-auth (~> 1.0)
       mail (~> 2.3)
       mongoid (~> 3.0)

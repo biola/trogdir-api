@@ -15,6 +15,7 @@ module Trogdir
       end
 
       mount PeopleAPI
+      mount ChangesAPI
 
       resource 'people/:person_id' do
         mount IDsAPI

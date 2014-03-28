@@ -1,8 +1,13 @@
 module AuthenticationHelpers
-  def authentic?
+  def current_syncinator
     request = Rack::Request.new(@env)
     access_id = ApiAuth.access_id(request)
-    secret_key = Syncinator.where(access_id: access_id).first.try(:secret_key)
+    Syncinator.where(access_id: access_id).first
+  end
+
+  def authentic?
+    request = Rack::Request.new(@env)
+    secret_key = current_syncinator.try(:secret_key)
 
     ApiAuth.authentic? request, secret_key
   end
