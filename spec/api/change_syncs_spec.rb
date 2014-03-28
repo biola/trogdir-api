@@ -55,14 +55,27 @@ describe Trogdir::API do
 
   describe 'PUT /v1/change_syncs/error' do
     let!(:person) { create :person }
-    let(:sync_log_id) { JSON.parse(signed_put('/v1/change_syncs/start', {}, syncinator).body).first['sync_log_id'] }
-    let(:url) { "/v1/change_syncs/error/#{sync_log_id}" }
+    let(:sync_log) { create(:sync_log) }
+    let(:url) { "/v1/change_syncs/error/#{sync_log.id}" }
     let(:params) { {message: 'Slightly shotgunned'} }
 
     it 'sets errored_at and message' do
       expect(response.status).to eql 200
       expect(json[:errored_at]).to_not be_empty
       expect(json[:message]).to eql 'Slightly shotgunned'
+    end
+  end
+
+  describe 'PUT /v1/change_syncs/finish' do
+    let(:sync_log) { create(:sync_log) }
+    let(:url) { "/v1/change_syncs/finish/#{sync_log.id}" }
+    let(:params) { {action: 'created', message: 'Did stuff'} }
+
+    it 'sets succeeded_at, action and message' do
+      expect(response.status).to eql 200
+      expect(json[:succeeded_at]).to_not be_empty
+      expect(json[:action]).to eql 'created'
+      expect(json[:message]).to eql 'Did stuff'
     end
   end
 end

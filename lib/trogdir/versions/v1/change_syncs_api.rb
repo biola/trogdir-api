@@ -24,6 +24,18 @@ module Trogdir
 
           current_syncinator.error! sync_log, params[:message]
         end
+
+        desc "Return a sync_log and mark it as succeeded"
+        params do
+          requires :sync_log_id, type: String
+          requires :action, type: String
+          optional :message, type: String
+        end
+        put 'finish/:sync_log_id' do
+          sync_log = SyncLog.find_through_parents(params[:sync_log_id])
+
+          current_syncinator.finish! sync_log, params[:action], params[:message]
+        end
       end
     end
   end
