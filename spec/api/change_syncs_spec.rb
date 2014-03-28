@@ -54,10 +54,15 @@ describe Trogdir::API do
   end
 
   describe 'PUT /v1/change_syncs/error' do
-    let!(:person) { create :person }
-    let(:sync_log) { create(:sync_log) }
+    let(:change_sync) { create :change_sync, syncinator: syncinator }
+    let(:sync_log) { create :sync_log, change_sync: change_sync }
     let(:url) { "/v1/change_syncs/error/#{sync_log.id}" }
     let(:params) { {message: 'Slightly shotgunned'} }
+
+    context 'when authenticated as another syncinator' do
+      let(:change_sync) { create :change_sync, syncinator: create(:syncinator) }
+      its(:status) { should eql 401 }
+    end
 
     it 'sets errored_at and message' do
       expect(response.status).to eql 200
@@ -67,9 +72,15 @@ describe Trogdir::API do
   end
 
   describe 'PUT /v1/change_syncs/finish' do
-    let(:sync_log) { create(:sync_log) }
+    let(:change_sync) { create :change_sync, syncinator: syncinator }
+    let(:sync_log) { create :sync_log, change_sync: change_sync }
     let(:url) { "/v1/change_syncs/finish/#{sync_log.id}" }
     let(:params) { {action: 'created', message: 'Did stuff'} }
+
+    context 'when authenticated as another syncinator' do
+      let(:change_sync) { create :change_sync, syncinator: create(:syncinator) }
+      its(:status) { should eql 401 }
+    end
 
     it 'sets succeeded_at, action and message' do
       expect(response.status).to eql 200

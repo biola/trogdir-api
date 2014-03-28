@@ -22,6 +22,8 @@ module Trogdir
         put 'error/:sync_log_id' do
           sync_log = SyncLog.find_through_parents(params[:sync_log_id])
 
+          unauthorized! unless sync_log.syncinator == current_syncinator
+
           current_syncinator.error! sync_log, params[:message]
         end
 
@@ -33,6 +35,8 @@ module Trogdir
         end
         put 'finish/:sync_log_id' do
           sync_log = SyncLog.find_through_parents(params[:sync_log_id])
+
+          unauthorized! unless sync_log.syncinator == current_syncinator
 
           current_syncinator.finish! sync_log, params[:action], params[:message]
         end
