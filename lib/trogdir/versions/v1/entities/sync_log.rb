@@ -2,12 +2,11 @@ module Trogdir
   module V1
     class SyncLogEntity < Grape::Entity
       expose(:sync_log_id) { |sync_log| sync_log.id }
-      expose(:action) { |sync_log| sync_log.changeset.action }
-      expose(:person_id) { |sync_log| sync_log.changeset.person.id }
-      expose(:scope) { |sync_log| sync_log.changeset.scope }
-      expose(:original) { |sync_log| sync_log.changeset.original }
-      expose(:modified) { |sync_log| sync_log.changeset.modified }
-      expose(:created_at) { |sync_log| sync_log.changeset.created_at }
+      expose :started_at
+      expose :errored_at
+      expose :succeeded_at
+      expose :action
+      expose :message
     end
   end
 end
