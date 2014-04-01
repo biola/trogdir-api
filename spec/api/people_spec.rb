@@ -18,6 +18,26 @@ describe Trogdir::API do
 
   subject { response }
 
+  describe 'GET /v1/people' do
+    let!(:person_a) { create :person, first_name: 'John', affiliations: [:student] }
+    let!(:person_b) { create :person, first_name: 'Jane', affiliations: [:employee] }
+
+    context 'without params' do
+      it 'returns all people' do
+        expect(json.length).to eql 2
+      end
+    end
+
+    context 'with affiliation param' do
+      let(:params) { {affiliation: 'employee'} }
+
+      it 'returns only poeple matching affiliations' do
+        expect(json.length).to eql 1
+        expect(json.first['first_name']).to eql 'Jane'
+      end
+    end
+  end
+
   describe 'GET /v1/people/:id' do
     let(:url) { "/v1/people/#{person_id}" }
 

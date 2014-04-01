@@ -2,6 +2,18 @@ module Trogdir
   module V1
     class PeopleAPI < Grape::API
       resource :people do
+        desc 'Get a list of people'
+        params do
+          optional :affiliation, type: String
+        end
+        get do
+          conditions = {}
+
+          conditions[:affiliations] = params[:affiliation].to_s if params[:affiliation]
+
+          present Person.where(conditions), with: PersonEntity
+        end
+
         desc 'Return a person by associated id', {params: PersonEntity.documentation.except(:enabled)}
         params do
           requires :identifier, desc: 'Associated identifier'
