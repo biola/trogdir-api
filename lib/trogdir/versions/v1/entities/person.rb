@@ -26,8 +26,27 @@ module Trogdir
       expose :affiliations
 
       # Options
-      expose :privacy
       expose :enabled
+
+      # STUDENT INFO #
+
+      # On-Campus Residence
+      expose :residence
+      expose :floor
+      expose :wing
+
+      # Academic
+      expose :majors
+
+      # FERPA
+      expose :privacy
+
+      # EMPLOYEE INFO #
+      expose :department
+      expose :title
+      expose :employee_type
+      expose :full_time
+      expose :pay_type
     end
   end
 end

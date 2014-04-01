@@ -39,8 +39,25 @@ module Trogdir
           optional :entitlements, type: Array
           optional :affiliations, type: Array
 
-          # Options
+          # STUDENT INFO #
+
+          # On-Campus Residence
+          optional :residence, type: String
+          optional :floor, type: Integer
+          optional :wing, type: String
+
+          # Academic
+          optional :majors, type: Array
+
+          # FERPA
           optional :privacy, type: Boolean
+
+          # EMPLOYEE INFO #
+          optional :department, type: String
+          optional :title, type: String
+          optional :employee_type, type: Symbol
+          optional :full_time, type: Boolean
+          optional :pay_type, type: Symbol
         end
         post do
           Person.create! clean_params
@@ -64,11 +81,28 @@ module Trogdir
           optional :entitlements, type: Array
           optional :affiliations, type: Array
 
-          # Options
+          # STUDENT INFO #
+
+          # On-Campus Residence
+          optional :residence, type: String
+          optional :floor, type: Integer
+          optional :wing, type: String
+
+          # Academic
+          optional :majors, type: Array
+
+          # FERPA
           optional :privacy, type: Boolean
+
+          # EMPLOYEE INFO #
+          optional :department, type: String
+          optional :title, type: String
+          optional :employee_type, type: Symbol
+          optional :full_time, type: Boolean
+          optional :pay_type, type: Symbol
         end
-        put do
-          Person.create! clean_params
+        put ':person_id', requirements: {person_id: /[0-9a-f]{24}/} do
+          Person.find(params[:person_id]).update_attributes! clean_params(except: :person_id)
         end
       end
     end

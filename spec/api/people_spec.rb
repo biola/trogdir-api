@@ -34,6 +34,7 @@ describe Trogdir::API do
     end
 
     context 'with full data' do
+      let(:person) { create :person, :student, :employee }
       let!(:id) { create :id, person: person }
       let!(:email) { create :email, person: person }
       let!(:photo) { create :photo, person: person }
@@ -64,8 +65,27 @@ describe Trogdir::API do
         expect(json[:affiliations]).to eql person.affiliations
 
         # Options
-        expect(json[:privacy]).to eql person.privacy
         expect(json[:enabled]).to eql person.enabled
+
+        # STUDENT INFO #
+
+        # On-Campus Residence
+        expect(json[:residence]).to eql person.residence
+        expect(json[:floor]).to eql person.floor
+        expect(json[:wing]).to eql person.wing
+
+        # Academic
+        expect(json[:majors]).to eql person.majors
+
+        # FERPA
+        expect(json[:privacy]).to eql person.privacy
+
+        # EMPLOYEE INFO #
+        expect(json[:department]).to eql person.department
+        expect(json[:title]).to eql person.title
+        expect(json[:employee_type]).to eql person.employee_type.to_s
+        expect(json[:full_time]).to eql person.full_time
+        expect(json[:pay_type]).to eql person.pay_type.to_s
       end
     end
   end
@@ -156,7 +176,16 @@ describe Trogdir::API do
         birth_date: 30.years.ago.to_s,
         entitlements: ['brothers:strong'],
         affiliations: ['cartoon'],
-        privacy: 'true'
+        residence: 'Strongbadia',
+        floor: '1',
+        wing: 'East',
+        majors: ['Sadness'],
+        privacy: 'true',
+        department: 'Psychology',
+        title: 'Total Bummer',
+        employee_type: 'Full-Time',
+        full_time: 'true',
+        pay_type: '02'
       } }
       it 'creates a person' do
         expect(response.status).to eql 201
@@ -171,8 +200,26 @@ describe Trogdir::API do
         expect(creation.birth_date).to eql 30.years.ago.to_date
         expect(creation.entitlements).to eql ['brothers:strong']
         expect(creation.affiliations).to eql ['cartoon']
+        expect(creation.residence).to eql 'Strongbadia'
+        expect(creation.floor).to eql 1
+        expect(creation.wing).to eql 'East'
+        expect(creation.majors).to eql ['Sadness']
         expect(creation.privacy).to eql true
+        expect(creation.department).to eql 'Psychology'
+        expect(creation.title).to eql 'Total Bummer'
+        expect(creation.employee_type).to eql :'Full-Time'
+        expect(creation.full_time).to eql true
+        expect(creation.pay_type).to eql :'02'
       end
     end
+  end
+
+  describe 'PUT /v1/people/:id' do
+    let(:person) { create :person, partial_ssn: '2345'}
+    let(:method) { :put }
+    let(:url) { "/v1/people/#{person_id}" }
+    let(:params) { {partial_ssn: '6789'} }
+    its(:status) { should eql 200 }
+    it { expect { signed_put(url, params) }.to change { person.reload.partial_ssn }.from('2345').to '6789' }
   end
 end
