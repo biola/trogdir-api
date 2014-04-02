@@ -40,7 +40,7 @@ describe Trogdir::API do
         expect(response.status).to eql 200
         expect(json.first).to have_key 'sync_log_id'
         expect(json.first['action']).to eql 'create'
-        expect(json.first['person_id']).to eql person.id.to_s
+        expect(json.first['person_id']).to eql person.uuid.to_s
         expect(json.first['scope']).to eql 'person'
         expect(json.first['original']).to eql({})
         expect(json.first['modified']).to be_a Hash
