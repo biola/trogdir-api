@@ -1,6 +1,8 @@
 module Trogdir
   module V1
     class PeopleAPI < Grape::API
+      UUID_REGEXP = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
+
       resource :people do
         desc 'Get a list of people'
         params do
@@ -29,8 +31,8 @@ module Trogdir
         params do
           requires :person_id, desc: 'Person ID'
         end
-        get ':person_id', requirements: {person_id: /[0-9a-f]{24}/} do
-          present Person.find(params[:person_id]), with: PersonEntity
+        get ':person_id', requirements: {person_id: UUID_REGEXP} do
+          present Person.find_by(uuid: params[:person_id]), with: PersonEntity
         end
 
         desc 'Create a person'
@@ -113,8 +115,8 @@ module Trogdir
           optional :full_time, type: Boolean
           optional :pay_type, type: Symbol
         end
-        put ':person_id', requirements: {person_id: /[0-9a-f]{24}/} do
-          Person.find(params[:person_id]).update_attributes! clean_params(except: :person_id)
+        put ':person_id', requirements: {person_id: UUID_REGEXP} do
+          Person.find_by(uuid: params[:person_id]).update_attributes! clean_params(except: :person_id)
         end
       end
     end

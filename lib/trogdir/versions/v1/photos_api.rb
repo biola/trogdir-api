@@ -3,14 +3,14 @@ module Trogdir
     class PhotosAPI < Grape::API
       resource :photos do
         get do
-          present Person.find(params[:person_id]).photos, with: PhotoEntity
+          present Person.find_by(uuid: params[:person_id]).photos, with: PhotoEntity
         end
 
         params do
           requires :photo_id, type: String
         end
         get ':photo_id' do
-          present Person.find(params[:person_id]).photos.find(params[:photo_id]), with: PhotoEntity
+          present Person.find_by(uuid: params[:person_id]).photos.find(params[:photo_id]), with: PhotoEntity
         end
 
         params do
@@ -20,7 +20,7 @@ module Trogdir
           optional :width, type: Integer
         end
         post do
-          Person.find(params[:person_id]).photos.create! clean_params(except: :person_id)
+          Person.find_by(uuid: params[:person_id]).photos.create! clean_params(except: :person_id)
         end
 
         params do
@@ -31,14 +31,14 @@ module Trogdir
           optional :width, type: Integer
         end
         put ':photo_id' do
-          Person.find(params[:person_id]).photos.find(params[:photo_id]).update_attributes! clean_params(except: [:person_id, :photo_id])
+          Person.find_by(uuid: params[:person_id]).photos.find(params[:photo_id]).update_attributes! clean_params(except: [:person_id, :photo_id])
         end
 
         params do
           requires :photo_id, type: String
         end
         delete ':photo_id' do
-          Person.find(params[:person_id]).photos.find(params[:photo_id]).destroy
+          Person.find_by(uuid: params[:person_id]).photos.find(params[:photo_id]).destroy
         end
       end
     end

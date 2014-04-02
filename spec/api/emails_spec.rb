@@ -5,7 +5,7 @@ describe Trogdir::API do
   include HMACHelpers
 
   let(:person) { create :person }
-  let(:person_id) { person.id }
+  let(:person_id) { person.uuid }
   let(:method) { :get }
   let(:url) { "/v1/people/#{person_id}/emails" }
   let(:params) { {} }
