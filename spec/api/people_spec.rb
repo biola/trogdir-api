@@ -68,6 +68,9 @@ describe Trogdir::API do
         expect(json[:phones].first.symbolize_keys).to eql type: phone.type.to_s, number: phone.number, primary: false
         expect(json[:addresses].first.symbolize_keys).to eql type: address.type.to_s, street_1: address.street_1, street_2: address.street_2, city: address.city, state: address.state, zip: address.zip, country: address.country
 
+	# ID
+        expect(json[:uuid]).to eql person.uuid
+
         # Names
         expect(json[:first_name]).to eql person.first_name
         expect(json[:preferred_name]).to eql person.preferred_name
@@ -137,7 +140,7 @@ describe Trogdir::API do
 
       it 'finds a person by id type' do
         expect(response.status).to eql 200
-        expect(json[:_id]).to eql person._id.to_s
+        expect(json[:uuid]).to eql person.uuid.to_s
       end
     end
 

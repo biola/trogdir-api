@@ -7,7 +7,7 @@ module Trogdir
       expose :phones, using: PhoneEntity, as: :phones
       expose :addresses, using: AddressEntity, as: :addresses
 
-      expose :_id
+      expose :uuid
 
       # Names
       expose :first_name
