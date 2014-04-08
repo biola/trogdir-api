@@ -18,7 +18,7 @@ module Trogdir
 
         desc 'Return a person by associated id', {params: PersonEntity.documentation.except(:enabled)}
         params do
-          requires :identifier, desc: 'Associated identifier'
+          requires :identifier, type: String, desc: 'Associated identifier'
           optional :type, type: Symbol, values: ID::TYPES, default: ID::DEFAULT_TYPE
         end
         get 'by_id/:identifier', requirements: {identifier: /[0-9a-zA-Z\._-]+/} do
@@ -74,7 +74,7 @@ module Trogdir
           optional :pay_type, type: Symbol
         end
         post do
-          Person.create! clean_params
+          present Person.create!(clean_params), with: PersonEntity
         end
 
         desc 'Update a person'
@@ -116,7 +116,10 @@ module Trogdir
           optional :pay_type, type: Symbol
         end
         put ':person_id', requirements: {person_id: UUID_REGEXP} do
-          Person.find_by(uuid: params[:person_id]).update_attributes! clean_params(except: :person_id)
+          person = Person.find_by(uuid: params[:person_id])
+          person.update_attributes! clean_params(except: :person_id)
+
+          present person, with: PersonEntity
         end
       end
     end
