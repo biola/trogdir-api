@@ -2,15 +2,20 @@ module Trogdir
   module V1
     class AddressesAPI < Grape::API
       resource :addresses do
+        before do
+          @person = Person.find_by(uuid: params[:person_id]) if params[:person_id]
+          @address = @person.addresses.find(params[:address_id]) if params[:address_id]
+        end
+
         get do
-          present Person.find_by(uuid: params[:person_id]).addresses, with: AddressEntity
+          present @person.addresses, with: AddressEntity
         end
 
         params do
           requires :address_id, type: String
         end
         get ':address_id' do
-          present Person.find_by(uuid: params[:person_id]).addresses.find(params[:address_id]), with: AddressEntity
+          present @address, with: AddressEntity
         end
 
         params do
@@ -23,7 +28,7 @@ module Trogdir
           optional :contry, type: String
         end
         post do
-          Person.find_by(uuid: params[:person_id]).addresses.create! clean_params(except: :person_id)
+          present @person.addresses.create!(clean_params(except: :person_id)), with: AddressEntity
         end
 
         params do
@@ -37,14 +42,18 @@ module Trogdir
           optional :contry, type: String
         end
         put ':address_id' do
-          Person.find_by(uuid: params[:person_id]).addresses.find(params[:address_id]).update_attributes! clean_params(except: [:person_id, :address_id])
+          @address.update_attributes! clean_params(except: [:person_id, :address_id])
+
+          present @address, with: AddressEntity
         end
 
         params do
           requires :address_id, type: String
         end
         delete ':address_id' do
-          Person.find_by(uuid: params[:person_id]).addresses.find(params[:address_id]).destroy
+          @address.destroy
+
+          present @address, with: AddressEntity
         end
       end
     end

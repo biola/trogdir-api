@@ -4,6 +4,10 @@ module Trogdir
       UUID_REGEXP = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
 
       resource :people do
+        before do
+          @person = Person.find_by(uuid: params[:person_id]) if params[:person_id]
+        end
+
         desc 'Get a list of people'
         params do
           optional :affiliation, type: String
@@ -32,7 +36,7 @@ module Trogdir
           requires :person_id, desc: 'Person ID'
         end
         get ':person_id', requirements: {person_id: UUID_REGEXP} do
-          present Person.find_by(uuid: params[:person_id]), with: PersonEntity
+          present @person, with: PersonEntity
         end
 
         desc 'Create a person'
@@ -116,10 +120,9 @@ module Trogdir
           optional :pay_type, type: Symbol
         end
         put ':person_id', requirements: {person_id: UUID_REGEXP} do
-          person = Person.find_by(uuid: params[:person_id])
-          person.update_attributes! clean_params(except: :person_id)
+          @person.update_attributes! clean_params(except: :person_id)
 
-          present person, with: PersonEntity
+          present @person, with: PersonEntity
         end
       end
     end
