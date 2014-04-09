@@ -62,11 +62,11 @@ describe Trogdir::API do
       let!(:address) { create :address, person: person }
 
       it 'has expected values' do
-        expect(json[:ids].first.symbolize_keys).to eql type: id.type.to_s, identifier: id.identifier
-        expect(json[:emails].first.symbolize_keys).to eql type: email.type.to_s, address: email.address, primary: false
-        expect(json[:photos].first.symbolize_keys).to eql type: photo.type.to_s, url: photo.url, height: photo.height, width: photo.width
-        expect(json[:phones].first.symbolize_keys).to eql type: phone.type.to_s, number: phone.number, primary: false
-        expect(json[:addresses].first.symbolize_keys).to eql type: address.type.to_s, street_1: address.street_1, street_2: address.street_2, city: address.city, state: address.state, zip: address.zip, country: address.country
+        expect(json[:ids].first.symbolize_keys).to eql id: id.id.to_s, type: id.type.to_s, identifier: id.identifier
+        expect(json[:emails].first.symbolize_keys).to eql id: email.id.to_s, type: email.type.to_s, address: email.address, primary: false
+        expect(json[:photos].first.symbolize_keys).to eql id: photo.id.to_s, type: photo.type.to_s, url: photo.url, height: photo.height, width: photo.width
+        expect(json[:phones].first.symbolize_keys).to eql id: phone.id.to_s, type: phone.type.to_s, number: phone.number, primary: false
+        expect(json[:addresses].first.symbolize_keys).to eql id: address.id.to_s, type: address.type.to_s, street_1: address.street_1, street_2: address.street_2, city: address.city, state: address.state, zip: address.zip, country: address.country
 
 	# ID
         expect(json[:uuid]).to eql person.uuid

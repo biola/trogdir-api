@@ -30,12 +30,12 @@ describe Trogdir::API do
     end
 
     its(:status) { should eql 200 }
-    it { expect(json).to eql [{'type' => home.type.to_s, 'number' => home.number, 'primary' => home.primary}, {'type' => cell.type.to_s, 'number' => cell.number, 'primary' => cell.primary}] }
+    it { expect(json).to eql [{'id' => home.id.to_s, 'type' => home.type.to_s, 'number' => home.number, 'primary' => home.primary}, {'id' => cell.id.to_s, 'type' => cell.type.to_s, 'number' => cell.number, 'primary' => cell.primary}] }
 
     describe 'GET /v1/people/:person_id/phones/:phone_id' do
       let(:url) { "/v1/people/#{person_id}/phones/#{cell.id}" }
       its(:status) { should eql 200 }
-      it { expect(json).to eql type: cell.type.to_s, number: cell.number, primary: cell.primary }
+      it { expect(json).to eql id: cell.id.to_s, type: cell.type.to_s, number: cell.number, primary: cell.primary }
     end
 
     describe 'POST /v1/people/:person_id/phones' do
