@@ -21,11 +21,11 @@ module Trogdir
         params do
           requires :type, type: Symbol, values: Address::TYPES
           requires :street_1, type: String
-          optional :street_1, type: String
+          optional :street_2, type: String
           optional :city, type: String
           optional :state, type: String
           optional :zip, type: String
-          optional :contry, type: String
+          optional :country, type: String
         end
         post do
           present @person.addresses.create!(clean_params(except: :person_id)), with: AddressEntity
@@ -35,11 +35,11 @@ module Trogdir
           requires :address_id, type: String
           optional :type, type: Symbol, values: Address::TYPES
           optional :street_1, type: String
-          optional :street_1, type: String
+          optional :street_2, type: String
           optional :city, type: String
           optional :state, type: String
           optional :zip, type: String
-          optional :contry, type: String
+          optional :country, type: String
         end
         put ':address_id' do
           @address.update_attributes! clean_params(except: [:person_id, :address_id])
