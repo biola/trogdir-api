@@ -21,8 +21,8 @@ module Trogdir
         params do
           requires :type, type: Symbol, values: Photo::TYPES
           requires :url, type: String
-          optional :height, type: Integer
-          optional :width, type: Integer
+          requires :height, type: Integer
+          requires :width, type: Integer
         end
         post do
           present @person.photos.create!(clean_params(except: :person_id)), with: PhotoEntity
