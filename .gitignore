@@ -1,6 +1,7 @@
 *.gem
 .bundle
 .rspec
+config/blazing.rb
 config/mongoid.yml
 pkg/*
 tmp/*

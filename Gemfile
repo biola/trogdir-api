@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'api-auth'
+gem 'blazing'
 gem 'grape'
 gem 'grape-entity'
+gem 'rake'
 gem 'trogdir_models'
 
 group :development, :test do
