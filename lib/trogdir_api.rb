@@ -1,11 +1,14 @@
 require 'grape'
 require 'grape-entity'
+require 'oj'
 require 'api_auth'
 require 'trogdir_models'
 
 module TrogdirAPI
   def self.initialize!
     ENV['RACK_ENV'] ||= 'development'
+
+    MultiJson.use :oj
 
     mongoid_yml_path = File.expand_path('../../config/mongoid.yml',  __FILE__)
     mongoid_yml_path = "#{mongoid_yml_path}.example" if !File.exists? mongoid_yml_path

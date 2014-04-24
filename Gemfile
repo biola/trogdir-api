@@ -4,6 +4,7 @@ gem 'api-auth'
 gem 'blazing'
 gem 'grape'
 gem 'grape-entity'
+gem 'oj'
 gem 'rake'
 gem 'trogdir_models'
 

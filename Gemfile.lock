@@ -80,6 +80,7 @@ GEM
     moped (1.5.2)
     multi_json (1.9.2)
     multi_xml (0.5.5)
+    oj (2.8.1)
     origin (1.1.0)
     polyglot (0.3.4)
     posix-spawn (0.3.8)
@@ -142,6 +143,7 @@ DEPENDENCIES
   faker
   grape
   grape-entity
+  oj
   pry
   pry-rescue
   pry-stack_explorer
