@@ -5,4 +5,7 @@ if ENV['RACK_ENV'] == 'development'
   use BetterErrors::Middleware
 end
 
+require 'newrelic_rpm'
+NewRelic::Agent.manual_start
+
 run Trogdir::API
