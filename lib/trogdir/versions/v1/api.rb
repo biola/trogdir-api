@@ -1,3 +1,5 @@
+require 'new_relic/agent/instrumentation/rack'
+
 module Trogdir
   module V1
     class API < Grape::API
@@ -24,6 +26,8 @@ module Trogdir
         mount PhonesAPI
         mount AddressesAPI
       end
+
+      include ::NewRelic::Agent::Instrumentation::Rack
     end
   end
 end
