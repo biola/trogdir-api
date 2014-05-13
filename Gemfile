@@ -23,3 +23,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'shotgun'
 end
+
+group :staging, :production do
+  gem 'newrelic-grape'
+end
