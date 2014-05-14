@@ -13,7 +13,7 @@ module Trogdir
       before { authenticate! }
 
       rescue_from Mongoid::Errors::DocumentNotFound do |e|
-        error! "404 Not Found", 404
+        Rack::Response.new([{error: '404 Not Found'}.to_json], 404, {'Content-type' => 'application/json'})
       end
 
       mount PeopleAPI
