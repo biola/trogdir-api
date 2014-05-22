@@ -3,3 +3,5 @@ target :'ruby3a.prod',   'johnd0@ruby3a.prod.biola.edu:/srv/rack/trodgir-api',  
 target :'ruby3b.prod',   'johnd0@ruby3b.prod.biola.edu:/srv/rack/trogdir-api',    rails_env: 'production'
 
 env_scripts '/etc/profile'
+
+rake :post_deploy

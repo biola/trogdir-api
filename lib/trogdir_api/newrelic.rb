@@ -1,5 +1,6 @@
 require 'newrelic_rpm'
 
+# Taken from https://gist.github.com/dblock/4170469
 class ApiNewRelicInstrumenter < Grape::Middleware::Base
   include NewRelic::Agent::Instrumentation::ControllerInstrumentation
 
