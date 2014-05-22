@@ -25,5 +25,6 @@ group :development do
 end
 
 group :staging, :production do
-  gem 'newrelic-grape'
+  gem 'newrelic_moped'
+  gem 'newrelic_rpm'
 end

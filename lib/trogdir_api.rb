@@ -13,6 +13,8 @@ module TrogdirAPI
     mongoid_yml_path = File.expand_path('../../config/mongoid.yml',  __FILE__)
     mongoid_yml_path = "#{mongoid_yml_path}.example" if !File.exists? mongoid_yml_path
     Mongoid.load! mongoid_yml_path
+
+    require File.expand_path('../trogdir_api/newrelic', __FILE__)
   end
 end
 
