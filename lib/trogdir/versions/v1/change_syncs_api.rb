@@ -11,9 +11,12 @@ module Trogdir
         end
 
         desc "Return and starts change_syncs that haven't been started"
+        params do
+          optional :limit, type: Integer, default: 100
+        end
         put :start do
           syncinator = current_syncinator
-          changesets = syncinator.startable_changesets
+          changesets = syncinator.startable_changesets.limit params[:limit]
 
           sync_logs = changesets.map do |changeset|
             syncinator.start! changeset

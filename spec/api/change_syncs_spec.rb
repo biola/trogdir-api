@@ -34,21 +34,32 @@ describe Trogdir::API do
     end
 
     context 'with unstarted change_syncs' do
-      let!(:person) { create :person }
+      context 'without limit set' do
+        let!(:person) { create :person }
 
-      it 'returns sync_logs' do
-        expect(response.status).to eql 200
-        expect(json.first).to have_key 'sync_log_id'
-        expect(json.first['action']).to eql 'create'
-        expect(json.first['person_id']).to eql person.uuid.to_s
-        expect(json.first['scope']).to eql 'person'
-        expect(json.first['original']).to eql({})
-        expect(json.first['modified']).to be_a Hash
-        expect(json.first).to have_key 'created_at'
+        it 'returns sync_logs' do
+          expect(response.status).to eql 200
+          expect(json.first).to have_key 'sync_log_id'
+          expect(json.first['action']).to eql 'create'
+          expect(json.first['person_id']).to eql person.uuid.to_s
+          expect(json.first['scope']).to eql 'person'
+          expect(json.first['original']).to eql({})
+          expect(json.first['modified']).to be_a Hash
+          expect(json.first).to have_key 'created_at'
+        end
+
+        it 'starts the change_syncs' do
+          expect { signed_put(url, params, syncinator) }.to change { syncinator.reload.startable_changesets.length }.from(1).to 0
+        end
       end
 
-      it 'starts the change_syncs' do
-        expect { signed_put(url, params, syncinator) }.to change { syncinator.reload.startable_changesets.length }.from(1).to 0
+      context 'with limit set to 1' do
+        let(:params) { {limit: '1'} }
+        before { create_list :person, 2 }
+
+        it 'returns just one sync_log' do
+          expect(json.length).to eql 1
+        end
       end
     end
   end
