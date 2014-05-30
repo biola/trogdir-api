@@ -1,52 +1,107 @@
 module Trogdir
   module V1
     class PersonEntity < Grape::Entity
-      expose :ids, using: IDEntity, as: :ids
-      expose :emails, using: EmailEntity, as: :emails
-      expose :photos, using: PhotoEntity, as: :photos
-      expose :phones, using: PhoneEntity, as: :phones
-      expose :addresses, using: AddressEntity, as: :addresses
+      FIELDS = [
+        :uuid,
 
-      expose :uuid
+        # Names
+        :first_name,
+        :preferred_name,
+        :middle_name,
+        :last_name,
+        :display_name,
 
-      # Names
-      expose :first_name
-      expose :preferred_name
-      expose :middle_name
-      expose :last_name
-      expose :display_name
+        # Demographic
+        :gender,
+        :partial_ssn,
+        :birth_date,
 
-      # Demographic
-      expose :gender
-      expose :partial_ssn
-      expose :birth_date
+        # Groups and permissions
+        :entitlements,
+        :affiliations,
 
-      # Groups and permissions
-      expose :entitlements
-      expose :affiliations
+        # Options
+        :enabled,
 
-      # Options
-      expose :enabled
+        # STUDENT INFO #
 
-      # STUDENT INFO #
+        # On-Campus Residence
+        :residence,
+        :floor,
+        :wing,
 
-      # On-Campus Residence
-      expose :residence
-      expose :floor
-      expose :wing
+        # Academic
+        :majors,
 
-      # Academic
-      expose :majors
+        # FERPA
+        :privacy,
 
-      # FERPA
-      expose :privacy
+        # EMPLOYEE INFO #
+        :department,
+        :title,
+        :employee_type,
+        :full_time,
+        :pay_type,
 
-      # EMPLOYEE INFO #
-      expose :department
-      expose :title
-      expose :employee_type
-      expose :full_time
-      expose :pay_type
+        ids: [
+          :id,
+          :type,
+          :identifier
+        ],
+
+        emails: [
+          :id,
+          :type,
+          :address,
+          :primary
+        ],
+
+        photos: [
+          :id,
+          :type,
+          :url,
+          :height,
+          :width
+        ],
+
+        phones: [
+          :id,
+          :type,
+          :number,
+          :primary
+        ],
+
+        addresses: [
+          :id,
+          :type,
+          :street_1,
+          :street_2,
+          :city,
+          :state,
+          :zip,
+          :country
+        ]
+      ]
+
+      def serializable_hash(runtime_options = {})
+        build_hash(object, FIELDS)
+      end
+
+      private
+
+      def build_hash(object, fields)
+        fields.each_with_object({}) do |field, hash|
+          if field.is_a? Hash
+            field.each do |association, embed_fields|
+              hash[association] = object.send(association).map do |embed|
+                build_hash(embed, embed_fields)
+              end
+            end
+          else
+            hash[field] = object.send(field)
+          end
+        end
+      end
     end
   end
 end

@@ -31,7 +31,7 @@ describe Trogdir::API do
     context 'with affiliation param' do
       let(:params) { {affiliation: 'employee'} }
 
-      it 'returns only poeple matching affiliations' do
+      it 'returns only people matching affiliations' do
         expect(json.length).to eql 1
         expect(json.first['first_name']).to eql 'Jane'
       end

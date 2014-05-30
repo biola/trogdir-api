@@ -17,7 +17,7 @@ module Trogdir
 
           conditions[:affiliations] = params[:affiliation].to_s if params[:affiliation]
 
-          present Person.where(conditions), with: PersonEntity
+          present Person.where(conditions), with: PersonEntity, serializable: true
         end
 
         desc 'Return a person by associated id', {params: PersonEntity.documentation.except(:enabled)}
