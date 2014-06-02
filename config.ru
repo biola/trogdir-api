@@ -9,4 +9,6 @@ if ENV['RACK_ENV'] == 'development'
   use BetterErrors::Middleware
 end
 
+use Pinglish, &TrogdirAPI.pinglish_block
+
 run Trogdir::API

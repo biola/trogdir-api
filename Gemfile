@@ -5,6 +5,7 @@ gem 'blazing'
 gem 'grape'
 gem 'grape-entity'
 gem 'oj'
+gem 'pinglish'
 gem 'rake'
 gem 'trogdir_models'
 
