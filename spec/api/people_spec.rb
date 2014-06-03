@@ -173,7 +173,7 @@ describe Trogdir::API do
 
     context 'without required params' do
       let(:params) { {first_name: 'Strong'} }
-      its(:status) { should eql 400 }
+      it { expect(json).to have_key :error }
     end
 
     context 'with required params' do
