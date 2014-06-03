@@ -5,9 +5,7 @@ module Trogdir
 
       version 'v1', using: :path
 
-      format :json
       helpers RequestHelpers
-      helpers ResponseHelpers
       helpers AuthenticationHelpers
 
       before { authenticate! }
