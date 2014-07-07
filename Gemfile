@@ -8,6 +8,7 @@ gem 'oj'
 gem 'pinglish'
 gem 'rake'
 gem 'trogdir_models'
+gem 'turnout'
 
 group :development, :test do
   gem 'factory_girl'

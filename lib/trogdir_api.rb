@@ -3,6 +3,7 @@ require 'grape-entity'
 require 'oj'
 require 'api_auth'
 require 'trogdir_models'
+require 'turnout'
 
 module TrogdirAPI
   def self.initialize!
@@ -13,6 +14,11 @@ module TrogdirAPI
     mongoid_yml_path = File.expand_path('../../config/mongoid.yml',  __FILE__)
     mongoid_yml_path = "#{mongoid_yml_path}.example" if !File.exists? mongoid_yml_path
     Mongoid.load! mongoid_yml_path
+
+    Turnout.configure do |config|
+      config.named_maintenance_file_paths.merge! server: '/tmp/turnout.yml'
+      config.default_maintenance_page = Turnout::MaintenancePage::JSON
+    end
 
     require File.expand_path('../trogdir_api/pinglish', __FILE__)
     require File.expand_path('../trogdir_api/newrelic', __FILE__)

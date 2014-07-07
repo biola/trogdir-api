@@ -129,6 +129,9 @@ GEM
       mail (~> 2.3)
       mongoid (~> 3.0)
       mongoid-history (~> 0.4)
+    turnout (2.0.0)
+      rack (~> 1.3)
+      rack-accept (~> 0.4)
     tzinfo (0.3.39)
     virtus (1.0.2)
       axiom-types (~> 0.1)
@@ -160,3 +163,4 @@ DEPENDENCIES
   rspec
   shotgun
   trogdir_models
+  turnout
