@@ -7,7 +7,7 @@ gem 'grape-entity'
 gem 'oj'
 gem 'pinglish'
 gem 'rake'
-gem 'trogdir_models'
+gem 'trogdir_models', '>= 0.7.0'
 gem 'turnout'
 
 group :development, :test do

@@ -2,6 +2,7 @@ module Trogdir
   module V1
     autoload :API, File.expand_path('../v1/api', __FILE__)
     autoload :ChangeSyncsAPI, File.expand_path('../v1/change_syncs_api', __FILE__)
+    autoload :GroupsAPI, File.expand_path('../v1/groups_api', __FILE__)
     autoload :PeopleAPI, File.expand_path('../v1/people_api', __FILE__)
     autoload :IDsAPI, File.expand_path('../v1/ids_api', __FILE__)
     autoload :EmailsAPI, File.expand_path('../v1/emails_api', __FILE__)

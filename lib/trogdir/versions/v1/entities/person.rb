@@ -19,6 +19,7 @@ module Trogdir
         # Groups and permissions
         :entitlements,
         :affiliations,
+        :groups,
 
         # Options
         :enabled,
