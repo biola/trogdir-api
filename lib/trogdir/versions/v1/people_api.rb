@@ -56,6 +56,7 @@ module Trogdir
           # Groups and permissions
           optional :entitlements, type: Array
           optional :affiliations, type: Array
+          optional :groups, type: Array
 
           # STUDENT INFO #
 
@@ -98,6 +99,7 @@ module Trogdir
           # Groups and permissions
           optional :entitlements, type: Array
           optional :affiliations, type: Array
+          optional :groups, type: Array
 
           # STUDENT INFO #
 
