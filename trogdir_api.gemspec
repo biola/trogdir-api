@@ -18,4 +18,8 @@ spec = Gem::Specification.new do |s|
   s.add_dependency 'grape', '~> 0.6'
   s.add_dependency 'grape-entity', '~> 0.4'
   s.add_dependency 'trogdir_models'
+  s.add_dependency 'oj'
+  s.add_dependency 'turnout'
+  s.add_dependency 'pinglish'
+  s.add_dependency 'newrelic_rpm'
 end
