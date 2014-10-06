@@ -1,7 +1,7 @@
 module Trogdir
   module V1
     class PhoneEntity < Grape::Entity
-      expose :id
+      expose(:id) { |phone| phone.id.to_s }
       expose :type
       expose :number
       expose :primary

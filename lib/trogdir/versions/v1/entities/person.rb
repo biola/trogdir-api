@@ -99,7 +99,10 @@ module Trogdir
               end
             end
           else
-            hash[field] = object.send(field)
+            # BSON::ObjectId#to_json spits out {:$oid=>"5432cb0862757357e4100000"}
+            # but we want a simple string like "5432cb0862757357e4100000".
+            val = object.send(field)
+            hash[field] = val.is_a?(BSON::ObjectId) ? val.to_s : val
           end
         end
       end

@@ -1,7 +1,7 @@
 module Trogdir
   module V1
     class PhotoEntity < Grape::Entity
-      expose :id
+      expose(:id) { |photo| photo.id.to_s }
       expose :type
       expose :url
       expose :height
