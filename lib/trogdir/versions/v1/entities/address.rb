@@ -1,7 +1,7 @@
 module Trogdir
   module V1
     class AddressEntity < Grape::Entity
-      expose :id
+      expose(:id) { |address| address.id.to_s }
       expose :type
       expose :street_1
       expose :street_2
