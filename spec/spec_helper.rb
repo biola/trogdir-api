@@ -5,6 +5,7 @@ ENV['RACK_ENV'] = 'test'
 
 require 'bundler/setup'
 require 'rspec'
+require 'rspec/its'
 require 'rack/test'
 require 'factory_girl'
 require 'faker'

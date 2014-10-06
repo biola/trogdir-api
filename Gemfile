@@ -18,6 +18,7 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'rack-test'
   gem 'rspec'
+  gem 'rspec-its'
 end
 
 group :development do
