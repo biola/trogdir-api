@@ -40,6 +40,7 @@ describe Trogdir::API do
         it 'returns sync_logs' do
           expect(response.status).to eql 200
           expect(json.first).to have_key 'sync_log_id'
+          expect(json.first['sync_log_id']).to be_a String
           expect(json.first['action']).to eql 'create'
           expect(json.first['person_id']).to eql person.uuid.to_s
           expect(json.first['affiliations']).to eql person.affiliations
