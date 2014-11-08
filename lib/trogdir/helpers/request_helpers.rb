@@ -2,7 +2,10 @@ module Trogdir
   module RequestHelpers
     def clean_params(options = {})
       exceptions = Array(options[:except])
-      params.except(*(['route_info'] + exceptions))
+
+      cleaned_params = params.except(*(['route_info'] + exceptions))
+
+      declared(cleaned_params, include_missing: false)
     end
   end
 end
