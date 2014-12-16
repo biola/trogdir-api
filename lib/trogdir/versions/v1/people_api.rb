@@ -64,9 +64,11 @@ module Trogdir
           optional :residence, type: String
           optional :floor, type: Integer
           optional :wing, type: String
+          optional :mailbox, type: String
 
           # Academic
           optional :majors, type: Array
+          optional :minors, type: Array
 
           # FERPA
           optional :privacy, type: Boolean
@@ -107,9 +109,11 @@ module Trogdir
           optional :residence, type: String
           optional :floor, type: Integer
           optional :wing, type: String
+          optional :mailbox, type: String
 
           # Academic
           optional :majors, type: Array
+          optional :minors, type: Array
 
           # FERPA
           optional :privacy, type: Boolean

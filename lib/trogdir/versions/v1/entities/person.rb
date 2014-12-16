@@ -30,9 +30,11 @@ module Trogdir
         :residence,
         :floor,
         :wing,
+        :mailbox,
 
         # Academic
         :majors,
+        :minors,
 
         # FERPA
         :privacy,
