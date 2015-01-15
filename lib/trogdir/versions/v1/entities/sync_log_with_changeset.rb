@@ -8,6 +8,7 @@ module Trogdir
       expose(:scope) { |sync_log| sync_log.changeset.scope }
       expose(:original) { |sync_log| sync_log.changeset.original }
       expose(:modified) { |sync_log| sync_log.changeset.modified }
+      expose(:all_attributes) { |sync_log| sync_log.changeset.trackable.attributes }
       expose(:created_at) { |sync_log| sync_log.changeset.created_at }
     end
   end

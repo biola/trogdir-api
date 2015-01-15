@@ -47,6 +47,7 @@ describe Trogdir::API do
           expect(json.first['scope']).to eql 'person'
           expect(json.first['original']).to eql({})
           expect(json.first['modified']).to be_a Hash
+          expect(json.first['all_attributes']).to be_a Hash
           expect(json.first).to have_key 'created_at'
         end
 
