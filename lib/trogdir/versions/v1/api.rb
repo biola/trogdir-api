@@ -8,7 +8,10 @@ module Trogdir
       helpers RequestHelpers
       helpers AuthenticationHelpers
 
-      before { authenticate! }
+      before do
+        authenticate!
+        Syncinator.current = current_syncinator
+      end
 
       rescue_from Mongoid::Errors::DocumentNotFound do |e|
         Rack::Response.new([{error: '404 Not Found'}.to_json], 404, {'Content-type' => 'application/json'})

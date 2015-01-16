@@ -39,9 +39,14 @@ describe Trogdir::API do
 
     describe 'POST /v1/people/:person_id/addresses' do
       let(:method) { :post }
-       let(:params) { {type: 'home', street_1: '123 Nowhere St'} }
+      let(:params) { {type: 'home', street_1: '123 Nowhere St'} }
       its(:status) { should eql 201 }
       it { expect { signed_post(url, params) }.to change { person.reload.addresses.count }.by 1 }
+
+      it 'creates a changeset' do
+        expect { signed_post(url, params) }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
 
     describe 'PUT /v1/people/:person_id/addresses/:address_id' do
@@ -50,6 +55,11 @@ describe Trogdir::API do
       let(:params) { {street_1: 'Strongbadia'} }
       its(:status) { should eql 200 }
       it { expect { signed_put(url, params) }.to change { home.reload.street_1 }.from('The Stick').to 'Strongbadia' }
+
+      it 'creates a changeset' do
+        expect { signed_put(url, params) }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
 
     describe 'DELETE /v1/people/:person_id/addresses/:address_id' do
@@ -57,6 +67,11 @@ describe Trogdir::API do
       let(:url) { "/v1/people/#{person_id}/addresses/#{address_id}" }
       its(:status) { should eql 200 }
       it { expect { signed_delete(url, params) }.to change { person.reload.addresses.count }.by -1 }
+
+      it 'creates a changeset' do
+        expect { signed_delete(url, params) }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
   end
 end

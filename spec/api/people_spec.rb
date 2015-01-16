@@ -185,6 +185,11 @@ describe Trogdir::API do
         expect(creation.first_name).to eql 'Strong'
         expect(creation.last_name).to eql 'Bad'
       end
+
+      it 'creates a changeset' do
+        expect { signed_post(url, params) }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
 
     context 'with all params' do
@@ -238,11 +243,16 @@ describe Trogdir::API do
   end
 
   describe 'PUT /v1/people/:id' do
-    let(:person) { create :person, partial_ssn: '2345'}
+    let!(:person) { create :person, partial_ssn: '2345'}
     let(:method) { :put }
     let(:url) { "/v1/people/#{person_id}" }
     let(:params) { {partial_ssn: '6789'} }
     its(:status) { should eql 200 }
     it { expect { signed_put(url, params) }.to change { person.reload.partial_ssn }.from('2345').to '6789' }
+
+    it 'creates a changeset' do
+      expect { signed_put(url, params) }.to change { Changeset.count }.by 1
+      expect(person.changesets.last.created_by).to_not be_nil
+    end
   end
 end

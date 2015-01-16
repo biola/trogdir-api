@@ -56,10 +56,15 @@ describe Trogdir::API do
     end
 
     context 'with a valid identifier and type' do
-      let(:person) { create :person }
-      let(:id) { create :id, person: person }
+      let!(:person) { create :person }
+      let!(:id) { create :id, person: person }
       let(:params) { {identifier: id.identifier, type: id.type.to_s} }
       it { expect(response.status).to eql 200 }
+
+      it 'creates a changeset' do
+        expect { response }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
 
     context 'when person is already in the group' do
@@ -92,10 +97,15 @@ describe Trogdir::API do
     end
 
     context 'with a valid identifier and type' do
-      let(:person) { create :person, groups: ['nobodies'] }
-      let(:id) { create :id, person: person }
+      let!(:person) { create :person, groups: ['nobodies'] }
+      let!(:id) { create :id, person: person }
       let(:params) { {identifier: id.identifier, type: id.type.to_s} }
       it { expect(response.status).to eql 200 }
+
+      it 'creates a changeset' do
+        expect { signed_put(url, params) }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
 
     context 'when person is in the group' do

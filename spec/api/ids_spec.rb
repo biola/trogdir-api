@@ -43,6 +43,11 @@ describe Trogdir::API do
       let(:params) { {type: 'google_apps', identifier: 'the.cheat'} }
       its(:status) { should eql 201 }
       it { expect { signed_post(url, params) }.to change { person.reload.ids.count }.by 1 }
+
+      it 'creates a changeset' do
+        expect { signed_post(url, params) }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
 
     describe 'PUT /v1/people/:person_id/ids/:id_id' do
@@ -51,6 +56,11 @@ describe Trogdir::API do
       let(:params) { {identifier: '1234567'} }
       its(:status) { should eql 200 }
       it { expect { signed_put(url, params) }.to change { biola_id.reload.identifier }.from('0000000').to '1234567' }
+
+      it 'creates a changeset' do
+        expect { signed_put(url, params) }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
 
     describe 'DELETE /v1/people/:person_id/ids/:id_id' do
@@ -58,6 +68,11 @@ describe Trogdir::API do
       let(:url) { "/v1/people/#{person_id}/ids/#{id_id}" }
       its(:status) { should eql 200 }
       it { expect { signed_delete(url, params) }.to change { person.reload.ids.count }.by -1 }
+
+      it 'creates a changeset' do
+        expect { signed_delete(url, params) }.to change { Changeset.count }.by 1
+        expect(person.changesets.last.created_by).to_not be_nil
+      end
     end
   end
 end
