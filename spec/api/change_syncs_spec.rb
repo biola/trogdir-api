@@ -54,6 +54,18 @@ describe Trogdir::API do
         it 'starts the change_syncs' do
           expect { signed_put(url, params, syncinator) }.to change { syncinator.reload.startable_changesets.length }.from(1).to 0
         end
+
+        context 'when action is "destroy"' do
+          before do
+            person.emails << Email.new(type: 'university', address: 'DJmankiewicz@homestarrunner.com')
+            person.emails.first.destroy
+          end
+
+          it 'has all_attributes as an empty hash' do
+            expect(json.last['action']).to eql 'destroy'
+            expect(json.last['all_attributes']).to eql({})
+          end
+        end
       end
 
       context 'with limit set to 1' do
