@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'api-auth'
+gem 'api-auth', require: 'api_auth'
 gem 'blazing'
 gem 'grape'
 gem 'grape-entity'
+gem 'hashie-forbidden_attributes'
 gem 'oj'
 gem 'pinglish'
 gem 'rake'

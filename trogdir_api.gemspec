@@ -17,6 +17,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency 'api-auth', '~> 1.0'
   s.add_dependency 'grape', '~> 0.6'
   s.add_dependency 'grape-entity', '~> 0.4'
+  s.add_dependency 'hashie-forbidden_attributes', '~> 0.1'
   s.add_dependency 'trogdir_models'
   s.add_dependency 'oj'
   s.add_dependency 'turnout'

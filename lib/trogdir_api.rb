@@ -1,5 +1,6 @@
 require 'grape'
 require 'grape-entity'
+require 'hashie-forbidden_attributes'
 require 'oj'
 require 'api_auth'
 require 'trogdir_models'
