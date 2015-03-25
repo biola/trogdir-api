@@ -5,6 +5,8 @@ gem 'blazing'
 gem 'grape'
 gem 'grape-entity'
 gem 'hashie-forbidden_attributes'
+gem 'newrelic_moped'
+gem 'newrelic_rpm'
 gem 'oj'
 gem 'pinglish'
 gem 'rake'
@@ -26,9 +28,4 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'shotgun'
-end
-
-group :staging, :production do
-  gem 'newrelic_moped'
-  gem 'newrelic_rpm'
 end
