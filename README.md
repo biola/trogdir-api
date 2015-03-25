@@ -14,12 +14,14 @@ Installation
 git clone git@github.com:biola/trogdir-api.git
 cd trogdir-api
 bundle install
+cp config/mongoid.yml.example config/mongoid.yml
 cp config/blazing.rb.example config/blazing.rb
 cp config/newrelic.yml.example config/newrelic.yml
 ```
 
 Configuration
 -------------
+- Edit `config/mongoid.yml` accordingly.
 - Edit `config/blazing.rb` accordingly.
 - Edit `config/newrelic.yml` accordingly.
 
