@@ -186,5 +186,5 @@ DEPENDENCIES
   rspec
   rspec-its
   shotgun
-  trogdir_models (>= 0.11.1)
+  trogdir_models (>= 0.12.1)
   turnout
