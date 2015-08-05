@@ -10,7 +10,7 @@ gem 'newrelic_rpm'
 gem 'oj'
 gem 'pinglish'
 gem 'rake'
-gem 'trogdir_models','>= 0.13.0'
+gem 'trogdir_models'
 gem 'turnout'
 
 group :development, :test do
