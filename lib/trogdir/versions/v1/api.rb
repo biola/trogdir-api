@@ -20,6 +20,7 @@ module Trogdir
       mount PeopleAPI
       mount GroupsAPI
       mount ChangeSyncsAPI
+      mount WorkersAPI
 
       resource 'people/:person_id' do
         mount IDsAPI

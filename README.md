@@ -53,6 +53,15 @@ Syncinator.create name: 'my-app', queue_changes: false
 This will automatically generate an `access_id` and `secret_key` that you will need to provide to `trogdir-api-client` in your application so that it can authhenticate with `trogdir-api`
 
 _Note: for details on whether or not you want to set `queue_changes`, see **Change Tracking and Syncing** below._
+
+Sidekiq Tracking Setup
+------------
+In order to take advantage of the Sidekiq tracking in trogdir, you need to create a worker for each Sidekiq process that runs.
+```ruby
+Trogdir::APIClient::Workers.new.create(name: "test", sidekiq_id: "1").perform
+```
+This (used from the trogdir-api-client gem) will create a Worker under a syncinator to run automatically.
+
 Change Tracking and Syncing
 ---------------------------
 __TODO__

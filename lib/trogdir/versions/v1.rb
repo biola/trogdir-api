@@ -9,6 +9,7 @@ module Trogdir
     autoload :PhotosAPI, File.expand_path('../v1/photos_api', __FILE__)
     autoload :PhonesAPI, File.expand_path('../v1/phones_api', __FILE__)
     autoload :AddressesAPI, File.expand_path('../v1/addresses_api', __FILE__)
+    autoload :WorkersAPI, File.expand_path('../v1/workers_api', __FILE__)
     autoload :SyncLogEntity, File.expand_path('../v1/entities/sync_log', __FILE__)
     autoload :SyncLogWithChangesetEntity, File.expand_path('../v1/entities/sync_log_with_changeset', __FILE__)
     autoload :PersonEntity, File.expand_path('../v1/entities/person', __FILE__)
@@ -17,5 +18,6 @@ module Trogdir
     autoload :PhotoEntity, File.expand_path('../v1/entities/photo', __FILE__)
     autoload :PhoneEntity, File.expand_path('../v1/entities/phone', __FILE__)
     autoload :AddressEntity, File.expand_path('../v1/entities/address', __FILE__)
+    autoload :WorkerEntity, File.expand_path('../v1/entities/worker', __FILE__)
   end
 end
