@@ -11,7 +11,7 @@ gem 'oj'
 gem 'pinglish'
 gem 'puma'
 gem 'rake'
-gem 'trogdir_models', path: '~/gems/trogdir-models'
+gem 'trogdir_models'
 gem 'turnout'
 
 group :development, :test do
