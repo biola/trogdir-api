@@ -9,8 +9,9 @@ gem 'newrelic_moped'
 gem 'newrelic_rpm'
 gem 'oj'
 gem 'pinglish'
+gem 'puma'
 gem 'rake'
-gem 'trogdir_models'
+gem 'trogdir_models', path: '~/gems/trogdir-models'
 gem 'turnout'
 
 group :development, :test do
@@ -29,3 +30,4 @@ group :development do
   gem 'binding_of_caller'
   gem 'shotgun'
 end
+

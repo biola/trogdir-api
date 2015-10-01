@@ -17,4 +17,6 @@ use Rack::CommonLogger, file
 
 use Pinglish, &TrogdirAPI.pinglish_block
 
-run Trogdir::API
+map ENV['PUMA_RELATIVE_URL_ROOT'] || '/' do
+  run Trogdir::API
+end
