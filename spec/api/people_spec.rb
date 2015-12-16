@@ -109,6 +109,7 @@ describe Trogdir::API do
         expect(json[:employee_type]).to eql person.employee_type.to_s
         expect(json[:full_time]).to eql person.full_time
         expect(json[:pay_type]).to eql person.pay_type.to_s
+        expect(json[:job_ct]).to eql person.job_ct
       end
     end
   end
@@ -213,7 +214,8 @@ describe Trogdir::API do
         title: 'Total Bummer',
         employee_type: 'Full-Time',
         full_time: 'true',
-        pay_type: '02'
+        pay_type: '02',
+        job_ct: '2'
       } }
       it 'creates a person' do
         expect(response.status).to eql 201
@@ -238,6 +240,7 @@ describe Trogdir::API do
         expect(creation.employee_type).to eql :'Full-Time'
         expect(creation.full_time).to eql true
         expect(creation.pay_type).to eql :'02'
+        expect(creation.job_ct).to eql 2
       end
     end
   end

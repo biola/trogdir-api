@@ -79,6 +79,7 @@ module Trogdir
           optional :employee_type, type: Symbol
           optional :full_time, type: Boolean
           optional :pay_type, type: Symbol
+          optional :job_ct, type: Integer
         end
         post do
           present Person.create!(clean_params), with: PersonEntity

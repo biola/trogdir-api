@@ -45,6 +45,7 @@ module Trogdir
         :employee_type,
         :full_time,
         :pay_type,
+        :job_ct,
 
         ids: [
           :id,
