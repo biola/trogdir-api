@@ -11,7 +11,7 @@ gem 'oj'
 gem 'pinglish'
 gem 'puma'
 gem 'rake'
-gem 'trogdir_models'
+gem 'trogdir_models', '>= 0.16.0'
 gem 'turnout'
 
 group :development, :test do
@@ -30,4 +30,3 @@ group :development do
   gem 'binding_of_caller'
   gem 'shotgun'
 end
-
