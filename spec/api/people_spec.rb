@@ -215,7 +215,7 @@ describe Trogdir::API do
         employee_type: 'Full-Time',
         full_time: 'true',
         pay_type: '02',
-        job_ct: '2'
+        job_ct: 2
       } }
       it 'creates a person' do
         expect(response.status).to eql 201

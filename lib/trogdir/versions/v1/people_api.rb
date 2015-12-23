@@ -125,6 +125,7 @@ module Trogdir
           optional :employee_type, type: Symbol
           optional :full_time, type: Boolean
           optional :pay_type, type: Symbol
+          optional :job_ct, type: Integer
         end
         put ':person_id', requirements: {person_id: UUID_REGEXP} do
           @person.update_attributes! clean_params(except: :person_id)
