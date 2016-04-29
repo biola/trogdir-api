@@ -5,13 +5,14 @@ gem 'blazing'
 gem 'grape'
 gem 'grape-entity'
 gem 'hashie-forbidden_attributes'
-gem 'newrelic_moped'
+# In the advent of using Mongoid 5 we shouldn't need this anymore
+# gem 'newrelic_moped'
 gem 'newrelic_rpm'
 gem 'oj'
 gem 'pinglish'
 gem 'puma'
 gem 'rake'
-gem 'trogdir_models', '>= 0.16.0'
+gem 'trogdir_models', '>= 0.17.0'
 gem 'turnout'
 
 group :development, :test do
