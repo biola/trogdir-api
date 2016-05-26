@@ -9,7 +9,12 @@ module Trogdir
       helpers AuthenticationHelpers
 
       before do
+        # Verify HMAC signiture for the given request
         authenticate!
+
+        # Mongoid::Userstamp::User gets mixed into the Syncinator class
+        # which provides methods for setting the current syncinator for
+        # the each request
         Syncinator.current = current_syncinator
       end
 

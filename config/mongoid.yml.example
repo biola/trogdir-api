@@ -1,35 +1,37 @@
 development:
-  sessions:
+  clients:
     default:
       database: trogdir_development
       hosts:
         - localhost:27017
 
 test:
-  sessions:
+  clients:
     default:
       database: trogdir_test
       hosts:
         - localhost:27017
 
 staging:
-  sessions:
+  clients:
     default:
       database: trogdir
       hosts:
         - mongo1.staging.biola.edu:27017
         - mongo2.staging.biola.edu:27017
         - mongo3.staging.biola.edu:27017
-      username: trogdir
-      password: "*************"
+      options:
+        user: trogdir
+        password: "*************"
 
 production:
-  sessions:
+  clients:
     default:
       database: trogdir
       hosts:
         - mongo1.prod.biola.edu:27017
         - mongo2.prod.biola.edu:27017
         - mongo3.prod.biola.edu:27017
-      username: trogdir
-      password: "*************"
+      options:
+        user: trogdir
+        password: "*************"

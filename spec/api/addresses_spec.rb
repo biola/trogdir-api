@@ -45,7 +45,7 @@ describe Trogdir::API do
 
       it 'creates a changeset' do
         expect { signed_post(url, params) }.to change { Changeset.count }.by 1
-        expect(person.changesets.last.created_by).to_not be_nil
+        expect(person.changesets.asc(:created_at).last.created_by).to_not be_nil
       end
     end
 
@@ -58,7 +58,7 @@ describe Trogdir::API do
 
       it 'creates a changeset' do
         expect { signed_put(url, params) }.to change { Changeset.count }.by 1
-        expect(person.changesets.last.created_by).to_not be_nil
+        expect(person.changesets.asc(:created_at).last.created_by).to_not be_nil
       end
     end
 
@@ -70,7 +70,7 @@ describe Trogdir::API do
 
       it 'creates a changeset' do
         expect { signed_delete(url, params) }.to change { Changeset.count }.by 1
-        expect(person.changesets.last.created_by).to_not be_nil
+        expect(person.changesets.asc(:created_at).last.created_by).to_not be_nil
       end
     end
   end
