@@ -1,7 +1,6 @@
 *.gem
 .bundle
 .rspec
-config/blazing.rb
 config/mongoid.yml
 config/newrelic.yml
 pkg/*

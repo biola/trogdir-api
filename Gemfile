@@ -8,6 +8,7 @@ gem 'newrelic_rpm', '~> 3.15', '< 4'
 gem 'oj', '~> 2.10'
 gem 'pinglish', '~> 0.2.1'
 gem 'puma', '~> 3.4'
+gem 'config'
 gem 'rake', '~> 11.1'
 gem 'trogdir_models', '~> 0.17.0'
 gem 'turnout', '~> 2.3'
@@ -27,4 +28,8 @@ group :development do
   gem 'better_errors', '~> 2.1'
   gem 'binding_of_caller', '~> 0.7'
   gem 'shotgun', '~> 0.9'
+end
+
+group :production do
+  gem 'sentry-raven'
 end

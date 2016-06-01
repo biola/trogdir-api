@@ -1,0 +1,2 @@
+sentry:
+  url: # set in settings.local.yml
