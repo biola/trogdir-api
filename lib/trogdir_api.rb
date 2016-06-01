@@ -3,12 +3,19 @@ require 'grape-entity'
 require 'hashie-forbidden_attributes'
 require 'oj'
 require 'api_auth'
+require 'config'
 require 'trogdir_models'
 require 'turnout'
 
 module TrogdirAPI
+  def self.environment
+    (ENV['RACK_ENV'] || ENV['RAILS_ENV'] || :development).to_sym
+  end
+
   def self.initialize!
-    ENV['RACK_ENV'] ||= 'development'
+    ENV['RACK_ENV'] ||= environment.to_s
+
+    Config.load_and_set_settings('./config/settings.yml', "./config/settings.#{environment}.yml", './config/settings.local.yml')
 
     MultiJson.use :oj
 
