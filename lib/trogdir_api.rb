@@ -16,6 +16,12 @@ module TrogdirAPI
     mongoid_yml_path = "#{mongoid_yml_path}.example" if !File.exists? mongoid_yml_path
     Mongoid.load! mongoid_yml_path
 
+    if defined? Raven
+      Raven.configure do |config|
+        config.dsn = Settings.sentry.url
+      end
+    end
+
     Turnout.configure do |config|
       config.named_maintenance_file_paths.merge! server: '/tmp/turnout.yml'
       config.default_maintenance_page = Turnout::MaintenancePage::JSON
