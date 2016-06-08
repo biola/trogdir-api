@@ -15,6 +15,7 @@ spec = Gem::Specification.new do |s|
   s.homepage = 'https://github.com/biola/trogdir-api'
   s.license = 'MIT'
   s.add_dependency 'api-auth', '~> 1.0'
+  s.add_dependency 'config', '~> 1.0'
   s.add_dependency 'grape', '~> 0.6'
   s.add_dependency 'grape-entity', '~> 0.4'
   s.add_dependency 'hashie-forbidden_attributes', '~> 0.1'
