@@ -10,7 +10,7 @@ gem 'oj', '~> 2.10'
 gem 'pinglish', '~> 0.2.1'
 gem 'puma', '~> 3.4'
 gem 'rake', '~> 11.1'
-gem 'trogdir_models', '~> 0.17.0'
+gem 'trogdir_models', '~> 0.18.0'
 gem 'turnout', '~> 2.3'
 
 group :development, :test do

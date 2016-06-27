@@ -135,7 +135,7 @@ GEM
     slop (3.6.0)
     thread_safe (0.3.5)
     tilt (2.0.4)
-    trogdir_models (0.17.0)
+    trogdir_models (0.18.0)
       api-auth (~> 1.0)
       email_validator (~> 1.4)
       mongoid (~> 5.1)
@@ -180,7 +180,7 @@ DEPENDENCIES
   rspec-its (~> 1.2)
   sentry-raven
   shotgun (~> 0.9)
-  trogdir_models (~> 0.17.0)
+  trogdir_models (~> 0.18.0)
   turnout (~> 2.3)
 
 BUNDLED WITH
