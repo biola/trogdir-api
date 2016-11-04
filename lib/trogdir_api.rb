@@ -34,7 +34,6 @@ module TrogdirAPI
       config.default_maintenance_page = Turnout::MaintenancePage::JSON
     end
 
-    require File.expand_path('../trogdir_api/pinglish', __FILE__)
     require File.expand_path('../trogdir_api/newrelic', __FILE__)
   end
 end
