@@ -15,7 +15,12 @@ file = File.new("./log/#{env}.log", 'a+')
 file.sync = true
 use Rack::CommonLogger, file
 
-use Pinglish, &TrogdirAPI.pinglish_block
+require 'pinglish'
+use Pinglish do |ping|
+  ping.check :mongodb do
+    Mongoid.default_client.command(ping: 1).documents.any?{|d| d == {'ok' => 1}}
+  end
+end
 
 map ENV['PUMA_RELATIVE_URL_ROOT'] || '/' do
   run Trogdir::API
