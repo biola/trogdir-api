@@ -19,12 +19,16 @@ describe Trogdir::API do
   subject { response }
 
   describe 'GET /v1/people' do
-    let!(:person_a) { create :person, first_name: 'John', affiliations: [:student] }
-    let!(:person_b) { create :person, first_name: 'Jane', affiliations: [:employee] }
+    let!(:person_a) { create :person, first_name: 'A', affiliations: [:student] }
+    let!(:person_b) { create :person, first_name: 'B', affiliations: [:employee] }
+    let!(:person_c) { create :person, first_name: 'C', affiliations: [:alumnus] }
+    let!(:person_d) { create :person, first_name: 'D', affiliations: [:alumnus] }
+    let!(:person_e) { create :person, first_name: 'E', affiliations: [:alumnus] }
 
     context 'without params' do
       it 'returns all people' do
-        expect(json.length).to eql 2
+        expect(json.length).to eql 5
+        expect(json.map{|p| p['first_name']}).to eql %w(A B C D E)
       end
     end
 
@@ -33,7 +37,47 @@ describe Trogdir::API do
 
       it 'returns only people matching affiliations' do
         expect(json.length).to eql 1
-        expect(json.first['first_name']).to eql 'Jane'
+        expect(json.first['first_name']).to eql 'B'
+      end
+    end
+
+    context 'with page' do
+      context 'page 0' do
+        let(:params) { {page: 0, per_page: 2} }
+        it 'returns all' do
+          expect(json.length).to eql 5
+        end
+      end
+
+      context 'page 1' do
+        let(:params) { {page: 1, per_page: 2} }
+        it 'returns only the first 2' do
+          expect(json.length).to eql 2
+          expect(json.map{|p| p['first_name']}).to eql %w(A B)
+        end
+      end
+
+      context 'page 2' do
+        let(:params) { {page: 2, per_page: 2} }
+        it 'returns only the second 2' do
+          expect(json.length).to eql 2
+          expect(json.map{|p| p['first_name']}).to eql %w(C D)
+        end
+      end
+
+      context 'page 3' do
+        let(:params) { {page: 3, per_page: 2} }
+        it 'returns only the last 1' do
+          expect(json.length).to eql 1
+          expect(json.map{|p| p['first_name']}).to eql %w(E)
+        end
+      end
+
+      context 'page 4' do
+        let(:params) { {page: 4, per_page: 2} }
+        it 'returns none' do
+          expect(json.length).to eql 0
+        end
       end
     end
   end
@@ -68,7 +112,7 @@ describe Trogdir::API do
         expect(json[:phones].first.symbolize_keys).to eql id: phone.id.to_s, type: phone.type.to_s, number: phone.number, primary: false
         expect(json[:addresses].first.symbolize_keys).to eql id: address.id.to_s, type: address.type.to_s, street_1: address.street_1, street_2: address.street_2, city: address.city, state: address.state, zip: address.zip, country: address.country
 
-	# ID
+        # ID
         expect(json[:uuid]).to eql person.uuid
 
         # Names

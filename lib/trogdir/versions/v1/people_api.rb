@@ -11,13 +11,21 @@ module Trogdir
         desc 'Get a list of people'
         params do
           optional :affiliation, type: String
+          optional :page, type: Integer
+          optional :per_page, type: Integer, default: 100
         end
         get do
           conditions = {}
 
           conditions[:affiliations] = params[:affiliation].to_s if params[:affiliation]
 
-          present Person.where(conditions), with: PersonEntity, serializable: true
+          people = Person.where(conditions)
+          if params[:page] && params[:per_page] && params[:page] > 0
+            skip_count = params[:page] * params[:per_page] - params[:per_page]
+            people = people.skip(skip_count).limit(params[:per_page])
+          end
+
+          present people, with: PersonEntity, serializable: true
         end
 
         desc 'Return a person by associated id', {params: PersonEntity.documentation.except(:enabled)}
