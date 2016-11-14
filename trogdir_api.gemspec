@@ -23,5 +23,4 @@ spec = Gem::Specification.new do |s|
   s.add_dependency 'oj'
   s.add_dependency 'turnout'
   s.add_dependency 'pinglish'
-  s.add_dependency 'newrelic_rpm'
 end
