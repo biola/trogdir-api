@@ -1,8 +1,6 @@
 module Trogdir
   module V1
     class API < Grape::API
-      use ApiNewRelicInstrumenter
-
       version 'v1', using: :path
 
       helpers RequestHelpers

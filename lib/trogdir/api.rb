@@ -1,4 +1,3 @@
-require 'new_relic/agent/instrumentation/rack'
 require 'rack/turnout'
 
 module Trogdir
@@ -13,7 +12,5 @@ module Trogdir
 
     route(:any, '*path') { raise_404 }
     route(:any, '/') { raise_404 }
-
-    include ::NewRelic::Agent::Instrumentation::Rack
   end
 end
