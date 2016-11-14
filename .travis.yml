@@ -1,6 +1,14 @@
 language: ruby
 rvm:
-  - 2.1.4
+  - 2.1.6
 services:
   - mongodb
 script: bundle exec rspec
+deploy:
+  provider: rubygems
+  api_key:
+    secure: "MUMuo17mZueU1A+s3s3RGes9L8gC9T2bx/JQQlx6tyFaW6/jHii64k6upNwdQKpLEgIg88XtlWDGlFys2k1c6lLMPIG1Zbsr5yld9bnY0JQo3KfFnGpPyCr6SZ5xRUGnjb6M9viP4hJPWjdrqYQKeudvBb9RaajCl3IV4cCg9tg="
+  gem: trogdir_api
+  on:
+    tags: true
+    rvm: 2.1.6
