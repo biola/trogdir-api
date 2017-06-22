@@ -1,4 +1,5 @@
-require ::File.expand_path('../config/environment', __FILE__)
+require 'logger'
+require ::File.expand_path('../config/environment',  __FILE__)
 
 env = ENV['RACK_ENV'] || ENV['RAILS_ENV'] || 'development'
 
@@ -9,7 +10,15 @@ end
 
 file = File.new("./log/#{env}.log", 'a+')
 file.sync = true
-use Rack::CommonLogger, file
+
+::Logger.class_eval { alias :write :'<<' }
+$logger = ::Logger.new(file)
+
+use Rack::CommonLogger, $logger
+
+before {
+  env["rack.errors"] = file
+}
 
 require 'pinglish'
 pinglish_path = "#{ENV['PUMA_RELATIVE_URL_ROOT']}/_ping"
