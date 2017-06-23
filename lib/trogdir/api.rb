@@ -4,7 +4,12 @@ module Trogdir
   class API < Grape::API
     helpers ResponseHelpers
     format :json
-    rescue_from :all
+
+    rescue_from :all do |e|
+      $logger.error("\n#{e.message} at #{e.backtrace.join(' ')}\n")
+      error = { error: e.message }.to_json
+      Rack::Response.new([ error ], 500, { 'Content-type' => 'text/error' }).finish
+    end
 
     use Rack::Turnout
 

@@ -11,14 +11,12 @@ end
 file = File.new("./log/#{env}.log", 'a+')
 file.sync = true
 
+# create a global logger that we can use in the app
 ::Logger.class_eval { alias :write :'<<' }
 $logger = ::Logger.new(file)
 
+# use the same logger for rack logging
 use Rack::CommonLogger, $logger
-
-before {
-  env["rack.errors"] = file
-}
 
 require 'pinglish'
 pinglish_path = "#{ENV['PUMA_RELATIVE_URL_ROOT']}/_ping"
