@@ -22,6 +22,7 @@ module TrogdirAPI
     mongoid_yml_path = File.expand_path('../../config/mongoid.yml',  __FILE__)
     mongoid_yml_path = "#{mongoid_yml_path}.example" if !File.exists? mongoid_yml_path
     Mongoid.load! mongoid_yml_path
+    Mongoid.logger.level = Logger::DEBUG
 
     if defined? Raven
       Raven.configure do |config|

@@ -10,6 +10,7 @@ require 'rack/test'
 require 'factory_girl'
 require 'faker'
 require 'trogdir_models'
+require 'logger'
 require 'pry'
 
 require_relative '../lib/trogdir_api'
@@ -27,4 +28,6 @@ RSpec.configure do |config|
   config.before(:each) do
     Mongoid.purge!
   end
+
+  $logger = Logger.new("/dev/null")
 end
