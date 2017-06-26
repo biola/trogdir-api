@@ -25,11 +25,10 @@ module TrogdirAPI
 
     Mongoid.load! mongoid_yml_path
 
-    file = File.new("./log/mongoid_#{environment}.log", 'a+')
+    file = File.new("./log/#{environment}.log", 'a+')
     file.sync = true
-    mongoid_log = Logger.new(file)
 
-    Mongo::Logger.logger = mongoid_log
+    Mongo::Logger.logger = Logger.new(file)
     Mongo::Logger.logger.level = Logger::DEBUG
 
     if defined? Raven
