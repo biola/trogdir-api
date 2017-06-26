@@ -6,7 +6,6 @@ require 'api_auth'
 require 'config'
 require 'trogdir_models'
 require 'turnout'
-require 'pry'
 
 module TrogdirAPI
   def self.environment
