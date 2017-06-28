@@ -8,7 +8,7 @@ module Trogdir
     rescue_from :all do |e|
       $logger.error("\n#{e.message} at #{e.backtrace.join(' ')}\n")
       error = { error: e.message }.to_json
-      Rack::Response.new([ error ], 500, { 'Content-type' => 'text/error' }).finish
+      Rack::Response.new([ error ], 500, { 'Content-type' => 'application/json' }).finish
     end
 
     use Rack::Turnout
