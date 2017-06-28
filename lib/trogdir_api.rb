@@ -28,7 +28,7 @@ module TrogdirAPI
     file.sync = true
 
     Mongo::Logger.logger = Logger.new(file)
-    Mongo::Logger.logger.level = Logger::INFO
+    Mongo::Logger.logger.level = Logger::DEBUG
 
     if defined? Raven
       Raven.configure do |config|
