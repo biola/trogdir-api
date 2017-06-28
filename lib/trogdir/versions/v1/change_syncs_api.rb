@@ -18,16 +18,20 @@ module Trogdir
           begin
             syncinator = current_syncinator
             changesets = syncinator.startable_changesets.limit(params[:limit])
+            changeset_count = changesets.count
 
             start_time = Time.now
+            ctr = 0
             sync_logs = changesets.map do |changeset|
+              ctr += 1
               syncinator.start! changeset
             end
 
             present sync_logs, with: SyncLogWithChangesetEntity
           rescue StandardError
             end_time = Time.now
-            $logger.info "processing  #{changesets.count} changesets for #{syncinator.name}: processing time: #{end_time - start_time} secs."
+            total_time = end_time - start_time
+            $logger.info "processing  #{changeset_count} changesets for #{syncinator.name}: processing time: #{total_time} secs. Processing ended at changeset # #{ctr}. Average time per changeset is #{total_time / changeset_count} secs"
             raise
           end
         end
