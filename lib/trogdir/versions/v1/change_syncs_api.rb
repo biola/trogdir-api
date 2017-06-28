@@ -27,7 +27,7 @@ module Trogdir
             present sync_logs, with: SyncLogWithChangesetEntity
           rescue StandardError
             end_time = Time.now
-            $logger.info "#{syncinator.name} change_syncs processing time: #{end_time - start_time} secs"
+            $logger.info "processing  #{changesets.count} changesets for #{syncinator.name}: processing time: #{end_time - start_time} secs."
             raise
           end
         end
