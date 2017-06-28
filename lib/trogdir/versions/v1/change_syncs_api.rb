@@ -15,14 +15,22 @@ module Trogdir
           optional :limit, type: Integer, default: 100
         end
         put :start do
-          syncinator = current_syncinator
-          changesets = syncinator.startable_changesets.limit params[:limit]
+          begin
+            syncinator = current_syncinator
+            changesets = syncinator.startable_changesets.limit(params[:limit])
 
-          sync_logs = changesets.map do |changeset|
-            syncinator.start! changeset
+            start_time = Time.now
+            sync_logs = changesets.map do |changeset|
+              syncinator.start! changeset
+            end
+
+            present sync_logs, with: SyncLogWithChangesetEntity
+            raise
+          rescue StandardError
+            end_time = Time.now
+            $logger.info "#{syncinator.name} change_syncs processing time: #{end_time - start_time} secs"
+            raise
           end
-
-          present sync_logs, with: SyncLogWithChangesetEntity
         end
 
         desc "Return a sync_log and mark it as errored"
@@ -34,7 +42,7 @@ module Trogdir
           current_syncinator.error! @sync_log, params[:message]
         end
 
-        desc "Return a sync_log and mark it as succeeded"
+        desc "Return a sync_log and mark it as succeeded" 
         params do
           requires :sync_log_id, type: String
           requires :action, type: String
