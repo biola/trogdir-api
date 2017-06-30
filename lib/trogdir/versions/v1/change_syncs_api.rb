@@ -16,7 +16,7 @@ module Trogdir
         end
         put :start do
           syncinator = current_syncinator
-          changesets = syncinator.startable_changesets.limit(params[:limit]).to_a
+          changesets = syncinator.startable_changesets.limit(params[:limit])
 
           sync_logs = changesets.map do |changeset|
             syncinator.start! changeset
