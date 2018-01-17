@@ -84,6 +84,15 @@ module Trogdir
           :state,
           :zip,
           :country
+        ],
+
+        # Accounts
+        accounts: [
+          :id,
+          :_type,
+          :modified_by,
+          :confirmation_key,
+          :confirmed_at
         ]
       ]
 

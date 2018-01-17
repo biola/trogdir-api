@@ -25,11 +25,12 @@ module Trogdir
       mount ChangeSyncsAPI
 
       resource 'people/:person_id' do
-        mount IDsAPI
-        mount EmailsAPI
-        mount PhotosAPI
-        mount PhonesAPI
+        mount AccountsAPI
         mount AddressesAPI
+        mount EmailsAPI
+        mount IDsAPI
+        mount PhonesAPI
+        mount PhotosAPI
       end
     end
   end

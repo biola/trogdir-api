@@ -1,0 +1,104 @@
+#
+# Override default settings here in this file
+#
+# Enabled by default:
+#   https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+# Disabled by default:
+#   https://github.com/bbatsov/rubocop/blob/master/config/disabled.yml
+# Other Default Settings:
+#   https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+#
+
+AllCops:
+  TargetRubyVersion: 2.2
+
+Style/WordArray:
+  Description: 'Use %w or %W for arrays of words.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#percent-w'
+  Enabled: false
+
+# If you want to explicitly convert an expression into a boolean value
+# this is the only way I can think to do it.
+Style/DoubleNegation:
+  Description: 'Checks for uses of double negation (!!).'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-bang-bang'
+  Enabled: false
+
+# I don't want to force this, there a good reasons to not have spaces.
+# I'll leave it up to the programmer to decide.
+Style/SpaceInsideHashLiteralBraces:
+  Description: "Use spaces inside hash literal braces - or don't."
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#spaces-operators'
+  Enabled: false
+
+# I think there is are valid reasons to use {...} for multiline blocks,
+# In tests for example when you have let {} and it needs to be
+# multiple lines, its annoying to mix do...end and {...} between lets.
+Style/BlockDelimiters:
+  Description: >-
+                Avoid using {...} for multi-line blocks (multiline chaining is
+                always ugly).
+                Prefer {...} over do...end for single-line blocks.
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#single-line-blocks'
+  Enabled: false
+
+# I'm just going to leave this up to us. Sometime I prefer to
+# leave a trailing comma, and other times I wouldn't want it.
+Style/TrailingCommaInLiteral:
+  Description: 'This cop checks for trailing comma in array and hash literals.'
+  StyleGuide: 'http://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style/TrailingCommaInLiteral'
+  Enabled: false
+
+Style/Documentation:
+  Description: 'Missing top-level module documentation comment.'
+  StyleGuide: 'http://www.rubydoc.info/github/bbatsov/rubocop/Rubocop/Cop/Style/Documentation'
+  Enabled: false
+
+Metrics/AbcSize:
+  Description: 'Assignment Branch Condition size is too high.'
+  StyleGuide: 'http://www.rubydoc.info/gems/rubocop/0.27.0/RuboCop/Cop/Metrics/AbcSize'
+  Enabled: false
+
+# No need to be nitpicky. This should be a guideline not a requirement.
+Metrics/MethodLength:
+  Description: 'This cop checks if the length of a method exceeds some maximum value.'
+  StyleGuide: 'http://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Metrics/MethodLength'
+  Enabled: false
+
+# Block has too many lines. Description of 90% of the specs..
+Metrics/BlockLength:
+  Description: 'This cop checks if the length of a block exceeds some maximum value.'
+  StyleGuide: 'http://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Metrics/BlockLength'
+  Enabled: false
+
+Style/Lambda:
+  Description: 'Use the lambda method for multi-line blocks.'
+  StyleGuide: 'http://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style/Lambda'
+  Enabled: false
+
+# Prefer using &block and block.call over yield. This way it is clear when
+#  reading the method definition that it accepts a block. Also block.call foo
+#  seems more descriptive of what it is actually doing than yield foo. If you
+#  don't know how blocks work you could still guess what block.call foo does,
+#  where as yield I'm not so sure.
+Performance/RedundantBlockCall:
+  Descripton: 'This cop identifies the use of a &block parameter and block.call where yield would do just as well.'
+  StyleGuide: 'http://www.rubydoc.info/github/bbatsov/RuboCop/RuboCop/Cop/Performance/RedundantBlockCall'
+  Enabled: false
+
+# This is being used in pundit and I would rather not break convention.
+Style/StructInheritance:
+  Description: "Don't extend an instance initialized by Struct.new"
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-extend-struct-new'
+  Enabled: false
+
+# Designed to help upgrade to Ruby 3.0.
+Style/FrozenStringLiteralComment:
+  Description: "Add `# frozen_string_literal: true` to the top of files to enable frozen string literals. Default in Ruby 3.0"
+  StyleGuide: 'http://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style/FrozenStringLiteralComment'
+  Enabled: false
+  
+# Ignoring all of the spec files so that they can look as atrocious as we like.
+AllCops:
+  Exclude:
+    - spec/*/*.rb
