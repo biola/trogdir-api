@@ -37,42 +37,5 @@ describe Trogdir::API do
       its(:status) { should eql 200 }
       it { expect(json).to eql id: personal.id.to_s, type: personal.type.to_s, address: personal.address, primary: false }
     end
-
-    describe 'POST /v1/people/:person_id/emails' do
-      let(:method) { :post }
-      let(:params) { {type: 'personal', address: 'the.cheat@example.com'} }
-      its(:status) { should eql 201 }
-      it { expect { signed_post(url, params) }.to change { person.reload.emails.count }.by 1 }
-
-      it 'creates a changeset' do
-        expect { signed_post(url, params) }.to change { Changeset.count }.by 1
-        expect(person.changesets.asc(:created_at).last.created_by).to_not be_nil
-      end
-    end
-
-    describe 'PUT /v1/people/:person_id/emails/:email_id' do
-      let(:method) { :put }
-      let(:url) { "/v1/people/#{person_id}/emails/#{email_id}" }
-      let(:params) { {address: 'burninator@example.com'} }
-      its(:status) { should eql 200 }
-      it { expect { signed_put(url, params) }.to change { personal.reload.address }.from('trogdor@example.com').to 'burninator@example.com' }
-
-      it 'creates a changeset' do
-        expect { signed_put(url, params) }.to change { Changeset.count }.by 1
-        expect(person.changesets.asc(:created_at).last.created_by).to_not be_nil
-      end
-    end
-
-    describe 'DELETE /v1/people/:person_id/emails/:email_id' do
-      let(:method) { :delete }
-      let(:url) { "/v1/people/#{person_id}/emails/#{email_id}" }
-      its(:status) { should eql 200 }
-      it { expect { signed_delete(url, params) }.to change { person.reload.emails.count }.by -1 }
-
-      it 'creates a changeset' do
-        expect { signed_delete(url, params) }.to change { Changeset.count }.by 1
-        expect(person.changesets.asc(:created_at).last.created_by_id).to_not be_nil
-      end
-    end
   end
 end
